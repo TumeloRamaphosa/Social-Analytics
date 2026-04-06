@@ -133,6 +133,25 @@
   }
 }
 
+@layer utilities {
+  .gradient-text {
+    background: linear-gradient(135deg, oklch(0.65 0.22 260), oklch(0.75 0.18 200));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .glow {
+    box-shadow: 0 0 30px oklch(0.65 0.22 260 / 0.3);
+  }
+  .card-hover {
+    transition: all 200ms;
+  }
+  .card-hover:hover {
+    border-color: oklch(0.65 0.22 260 / 0.5);
+    box-shadow: 0 10px 25px oklch(0.65 0.22 260 / 0.1);
+  }
+}
+
 @layer components {
   /**
    * Custom container utility that centers content and adds responsive padding.

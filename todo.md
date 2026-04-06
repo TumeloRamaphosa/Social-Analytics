@@ -1,0 +1,95 @@
+# Nexus Social — Platform TODO
+
+## Core Infrastructure
+- [x] Database schema: analyses, analysisCache, ragIndex tables
+- [x] tRPC routers: analysis, export
+- [x] Web scraping engine with intelligent caching (analysisEngine.ts)
+- [x] Rate limit handling and retry logic
+
+## Feature 1: Website Analysis Tool
+- [x] URL input form with validation
+- [x] Domain info extraction (WHOIS, DNS, registration)
+- [x] Business registration details
+- [x] Analysis results display (Report.tsx)
+
+## Feature 2: SEO & Performance Analysis
+- [x] Page speed scoring
+- [x] Meta tags extraction
+- [x] Keyword detection
+- [x] Technical SEO health score
+- [ ] Backlink count estimation (requires external API)
+
+## Feature 3: Social Media Presence Detection
+- [x] Facebook page detection
+- [x] Instagram profile detection
+- [x] LinkedIn company detection
+- [x] Twitter/X profile detection
+- [x] TikTok profile detection
+- [x] YouTube channel detection
+- [ ] Live follower counts (requires platform APIs)
+
+## Feature 4: Technology Stack Identification
+- [x] CMS detection (WordPress, Shopify, etc.)
+- [x] Framework detection (React, Vue, Angular, etc.)
+- [x] Hosting provider identification
+- [x] CDN detection
+- [x] Analytics tools detection
+- [x] Marketing platform detection
+
+## Feature 5: Competitive Analysis
+- [x] AI-generated SWOT analysis
+- [x] Market positioning insights
+- [x] Recommended actions
+- [ ] Industry benchmark comparison (requires data source)
+
+## Feature 6: Google Drive Export
+- [x] Structured markdown report generation
+- [x] S3 storage for reports
+- [x] Download functionality
+- [ ] Native Google Drive OAuth integration (requires Google API key)
+
+## Feature 7: RAG Pipeline
+- [x] ragIndex table for storing analysis chunks
+- [x] Analysis data indexing (keyword-based)
+- [x] Semantic search interface (Search.tsx)
+- [ ] True vector embeddings (requires embedding model)
+
+## Feature 8: Analysis History Dashboard
+- [x] All previously analyzed websites list (History.tsx)
+- [x] Search and filter history
+- [x] Delete analyses
+- [ ] Side-by-side comparison view (future)
+
+## Feature 9: PDF Report Generation
+- [x] HTML report generation with branded template
+- [x] S3 upload and download link
+- [ ] True PDF binary output (requires puppeteer/wkhtmltopdf)
+
+## Feature 10: Real-time Web Scraping
+- [x] Intelligent caching layer (analysisCache table)
+- [x] Cache invalidation controls
+- [x] Repeated analysis speed optimization
+
+## UI/UX
+- [x] Landing page with hero section and feature overview
+- [x] Dashboard layout with sidebar navigation
+- [x] Analysis form page (Analyze.tsx)
+- [x] Report view page (Report.tsx)
+- [x] History page (History.tsx)
+- [x] RAG Search page (Search.tsx)
+- [x] Dark theme with professional design
+
+## Tests
+- [x] Vitest tests for analysis router (7 tests passing)
+- [x] Vitest tests for export router
+- [x] Auth logout test
+
+## Future Enhancements
+- [ ] HubSpot CRM integration
+- [ ] WhatsApp reporting integration
+- [ ] Facebook auto-posting from analysis insights
+- [ ] MCP server for external tool access
+- [ ] True Google Drive OAuth sync
+- [ ] Vector embeddings for RAG (OpenAI/DeepSeek)
+- [ ] Competitor website tracking (scheduled re-analysis)
+- [ ] White-label PDF with custom branding
