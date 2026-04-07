@@ -93,3 +93,41 @@
 - [ ] Vector embeddings for RAG (OpenAI/DeepSeek)
 - [ ] Competitor website tracking (scheduled re-analysis)
 - [ ] White-label PDF with custom branding
+
+## SaaS Expansion (New Requests)
+- [x] Multi-tenant architecture (workspaces per client)
+- [x] Subscription billing tiers (Starter / Pro / Agency)
+- [x] White-label dashboard for reselling to clients
+- [ ] Client onboarding flow
+
+## Shopify Integration
+- [x] Shopify OAuth / API key connection
+- [x] Product catalogue sync
+- [x] Sales and revenue analytics
+- [ ] Abandoned cart tracking
+- [ ] Shopify ad spend vs revenue ROAS dashboard
+
+## Google Ads Integration
+- [ ] Google Ads OAuth connection
+- [ ] Campaign performance data (impressions, clicks, CPC, ROAS)
+- [ ] Spend optimization recommendations
+- [ ] Keyword performance analysis
+- [ ] Budget allocation suggestions
+
+## Content Management Platform
+- [x] Content calendar with scheduling
+- [x] AI content generation (Claude / nano banana skill)
+- [x] Multi-platform publishing (Facebook, Instagram, WhatsApp)
+- [ ] Content performance tracking
+- [ ] Brand voice library
+- [ ] Image generation for posts
+
+## Content Analysis & Reporting
+- [x] StudEx Meat content audit report
+- [x] Spend optimization report
+- [x] Content gap analysis
+- [x] Recommended content strategy
+
+## OpenClaw / External AI Integration
+- [ ] OpenClaw API connection research and integration
+- [ ] AI agent orchestration layer

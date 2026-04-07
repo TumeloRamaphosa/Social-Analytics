@@ -10,6 +10,9 @@ import Analyze from "./pages/Analyze";
 import Report from "./pages/Report";
 import History from "./pages/History";
 import Search from "./pages/Search";
+import ContentStudio from "./pages/ContentStudio";
+import Integrations from "./pages/Integrations";
+import SaaS from "./pages/SaaS";
 
 function Router() {
   return (
@@ -20,6 +23,9 @@ function Router() {
       <Route path="/report/:id" component={Report} />
       <Route path="/history" component={History} />
       <Route path="/search" component={Search} />
+      <Route path="/content" component={ContentStudio} />
+      <Route path="/integrations" component={Integrations} />
+      <Route path="/pricing" component={SaaS} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

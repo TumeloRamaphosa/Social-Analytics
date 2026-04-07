@@ -15,6 +15,13 @@
       "when": 1775493490614,
       "tag": "0001_lush_prowler",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1775599015000,
+      "tag": "0002_known_quasimodo",
+      "breakpoints": true
     }
   ]
 }
