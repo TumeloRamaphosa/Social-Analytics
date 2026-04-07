@@ -131,3 +131,40 @@
 ## OpenClaw / External AI Integration
 - [ ] OpenClaw API connection research and integration
 - [ ] AI agent orchestration layer
+
+## MCP Server Build
+- [x] Standalone MCP server with all Nexus Social tools
+- [x] Facebook & Instagram tools (get_analytics, post_content, get_insights)
+- [x] Shopify tools (get_orders, get_products, get_revenue)
+- [x] Content generation tools (generate_post, generate_image_prompt, get_content_plan)
+- [x] Business analysis tools (analyse_website, get_report, search_rag)
+- [ ] GitHub integration (connect_repo, read_file, list_files, trigger_workflow, create_issue)
+- [x] WhatsApp tools (send_message, send_report)
+- [x] MCP config JSON for Manus/Claude/Cursor connection
+- [ ] Master Manual with step-by-step setup guide
+- [ ] README with tool reference and examples
+
+## Phase 2 Expansion — Full Social Media Command Centre SaaS
+- [ ] Research-backed platform architecture blueprint
+- [x] WhatsApp chatbot (Meta Cloud API + AI responses)
+- [x] Instagram chatbot (DM automation + AI responses)
+- [ ] Deep client analytics engine (full page/business 360° view)
+- [ ] Social media engine automation (scheduling, auto-reply, content pipeline)
+- [x] OpenClaw integration guide and API connection
+- [ ] Client onboarding portal (white-label, multi-tenant)
+- [ ] Command centre dashboard (real-time unified inbox)
+- [x] MCP server with GitHub connectivity
+- [ ] Master Manual PDF (beginner-friendly, step-by-step)
+
+## 3D Website Redesign — Agentic Lab Showcase
+- [x] Install Three.js, @react-three/fiber, @react-three/drei, framer-motion
+- [x] 3D animated hero section with floating orbs, particle field, and neural network mesh
+- [x] Agentic Lab brand section with 3D product cards
+- [ ] Animated feature showcase with scroll-triggered 3D transitions
+- [ ] Command centre dashboard with glassmorphism and 3D data visualisations
+- [x] WhatsApp + Instagram chatbot UI pages
+- [x] MCP server showcase page with live tool explorer
+- [x] OpenClaw integration guide page
+- [ ] SaaS pricing page with 3D card flip animations
+- [ ] Client portfolio / case studies section
+- [ ] Contact / onboarding CTA with 3D form

@@ -13,6 +13,8 @@ import Search from "./pages/Search";
 import ContentStudio from "./pages/ContentStudio";
 import Integrations from "./pages/Integrations";
 import SaaS from "./pages/SaaS";
+import Chatbots from "./pages/Chatbots";
+import MCPServer from "./pages/MCPServer";
 
 function Router() {
   return (
@@ -26,6 +28,8 @@ function Router() {
       <Route path="/content" component={ContentStudio} />
       <Route path="/integrations" component={Integrations} />
       <Route path="/pricing" component={SaaS} />
+      <Route path="/chatbots" component={Chatbots} />
+      <Route path="/mcp" component={MCPServer} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
