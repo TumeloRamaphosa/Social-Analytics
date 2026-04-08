@@ -15,6 +15,7 @@ import Integrations from "./pages/Integrations";
 import SaaS from "./pages/SaaS";
 import Chatbots from "./pages/Chatbots";
 import MCPServer from "./pages/MCPServer";
+import Pricing from "./pages/Pricing";
 
 function Router() {
   return (
@@ -27,7 +28,8 @@ function Router() {
       <Route path="/search" component={Search} />
       <Route path="/content" component={ContentStudio} />
       <Route path="/integrations" component={Integrations} />
-      <Route path="/pricing" component={SaaS} />
+      <Route path="/pricing" component={Pricing} />
+      <Route path="/saas" component={SaaS} />
       <Route path="/chatbots" component={Chatbots} />
       <Route path="/mcp" component={MCPServer} />
       <Route path="/404" component={NotFound} />
