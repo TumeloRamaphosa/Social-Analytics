@@ -168,3 +168,12 @@
 - [ ] SaaS pricing page with 3D card flip animations
 - [ ] Client portfolio / case studies section
 - [ ] Contact / onboarding CTA with 3D form
+
+## Brand Redesign — StudEx D#VOP$ Cyberpunk Theme
+- [x] Upload StudEx bull brand image to CDN
+- [x] Redesign landing page hero with cyberpunk bull as centrepiece
+- [x] Apply neon pink / dark city grid colour palette site-wide
+- [x] Update CSS variables to match brand colours (hot pink, dark navy, cyan accents)
+- [x] Glitch text effects on headings matching brand typography
+- [x] Neon glow effects on buttons and cards
+- [x] Circuit board / grid pattern background elements

@@ -1,536 +1,707 @@
-import { useRef, useMemo, Suspense } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Stars, Float, MeshDistortMaterial, Sphere, OrbitControls } from "@react-three/drei";
-import * as THREE from "three";
-import { motion, type Variants, type Transition } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
-import { getLoginUrl } from "@/const";
-import { useAuth } from "@/_core/hooks/useAuth";
+import { Button } from "@/components/ui/button";
 import {
-  Zap, Brain, Globe, MessageSquare, BarChart3, Layers,
-  ArrowRight, ChevronDown, Bot, Rocket, Shield, Users,
-  Instagram, Facebook, ShoppingBag, Code2, Cpu, Network
+  Zap, Brain, Globe, BarChart3, MessageSquare, Bot,
+  ArrowRight, ChevronDown, Shield, Cpu, Sparkles,
+  TrendingUp, Users, Target, Play
 } from "lucide-react";
 
-// ─── 3D Scene Components ────────────────────────────────────────────────────
+const BULL_CDN = "https://d2xsxph8kpxj0f.cloudfront.net/310419663029659263/fYpX8oULM7FHcETfXDebgF/studex-bull-logo_b0ef99c2.jpeg";
 
-function NeuralOrb({ position, color, speed = 1, distort = 0.4 }: {
-  position: [number, number, number];
-  color: string;
-  speed?: number;
-  distort?: number;
-}) {
-  const meshRef = useRef<THREE.Mesh>(null);
-  useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.x = state.clock.elapsedTime * 0.2 * speed;
-      meshRef.current.rotation.y = state.clock.elapsedTime * 0.3 * speed;
-    }
-  });
+// Glitch text component
+function GlitchText({ children, className = "" }: { children: string; className?: string }) {
   return (
-    <Float speed={speed} rotationIntensity={0.5} floatIntensity={1.5}>
-      <Sphere ref={meshRef} args={[1, 64, 64]} position={position}>
-        <MeshDistortMaterial
-          color={color}
-          attach="material"
-          distort={distort}
-          speed={2}
-          roughness={0.1}
-          metalness={0.8}
-          transparent
-          opacity={0.85}
+    <span className={`relative inline-block ${className}`} data-text={children}>
+      <span className="glitch-main">{children}</span>
+    </span>
+  );
+}
+
+// Animated counter
+function Counter({ target, suffix = "" }: { target: number; suffix?: string }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const started = useRef(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !started.current) {
+        started.current = true;
+        const duration = 2000;
+        const steps = 60;
+        const increment = target / steps;
+        let current = 0;
+        const timer = setInterval(() => {
+          current += increment;
+          if (current >= target) {
+            setCount(target);
+            clearInterval(timer);
+          } else {
+            setCount(Math.floor(current));
+          }
+        }, duration / steps);
+      }
+    });
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [target]);
+
+  return <span ref={ref}>{count.toLocaleString()}{suffix}</span>;
+}
+
+// Neon grid background
+function NeonGrid() {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Dark base */}
+      <div className="absolute inset-0 bg-[#050008]" />
+      {/* Grid lines */}
+      <div
+        className="absolute inset-0 opacity-20"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(255,0,200,0.3) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,0,200,0.3) 1px, transparent 1px)
+          `,
+          backgroundSize: "60px 60px",
+        }}
+      />
+      {/* Perspective grid at bottom */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-64 opacity-30"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(255,0,200,0.5) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,0,200,0.5) 1px, transparent 1px)
+          `,
+          backgroundSize: "40px 40px",
+          transform: "perspective(400px) rotateX(60deg)",
+          transformOrigin: "bottom center",
+        }}
+      />
+      {/* Radial glow from centre */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_40%,rgba(255,0,180,0.12),transparent)]" />
+      {/* Top cyan accent */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-60" />
+    </div>
+  );
+}
+
+// Floating neon particles
+function Particles() {
+  const particles = Array.from({ length: 30 }, (_, i) => ({
+    id: i,
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+    size: Math.random() * 3 + 1,
+    duration: Math.random() * 8 + 4,
+    delay: Math.random() * 4,
+    color: i % 3 === 0 ? "#ff00cc" : i % 3 === 1 ? "#00ffff" : "#ff66ff",
+  }));
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {particles.map((p) => (
+        <motion.div
+          key={p.id}
+          className="absolute rounded-full"
+          style={{
+            left: `${p.x}%`,
+            top: `${p.y}%`,
+            width: p.size,
+            height: p.size,
+            backgroundColor: p.color,
+            boxShadow: `0 0 ${p.size * 4}px ${p.color}`,
+          }}
+          animate={{
+            y: [0, -30, 0],
+            opacity: [0.3, 1, 0.3],
+            scale: [1, 1.5, 1],
+          }}
+          transition={{
+            duration: p.duration,
+            delay: p.delay,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
         />
-      </Sphere>
-    </Float>
-  );
-}
-
-function ParticleField() {
-  const count = 800;
-  const positions = useMemo(() => {
-    const arr = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      arr[i * 3] = (Math.random() - 0.5) * 40;
-      arr[i * 3 + 1] = (Math.random() - 0.5) * 40;
-      arr[i * 3 + 2] = (Math.random() - 0.5) * 40;
-    }
-    return arr;
-  }, []);
-
-  const pointsRef = useRef<THREE.Points>(null);
-  useFrame((state) => {
-    if (pointsRef.current) {
-      pointsRef.current.rotation.y = state.clock.elapsedTime * 0.02;
-      pointsRef.current.rotation.x = state.clock.elapsedTime * 0.01;
-    }
-  });
-
-  return (
-    <points ref={pointsRef}>
-      <bufferGeometry>
-        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
-      </bufferGeometry>
-      <pointsMaterial size={0.06} color="#a855f7" transparent opacity={0.7} sizeAttenuation />
-    </points>
-  );
-}
-
-function NeuralNetwork() {
-  const groupRef = useRef<THREE.Group>(null);
-  const nodes = useMemo(() => {
-    return Array.from({ length: 12 }, (_, i) => ({
-      x: Math.cos((i / 12) * Math.PI * 2) * 3,
-      y: Math.sin((i / 12) * Math.PI * 2) * 3,
-      z: (Math.random() - 0.5) * 2,
-    }));
-  }, []);
-
-  useFrame((state) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y = state.clock.elapsedTime * 0.1;
-    }
-  });
-
-  return (
-    <group ref={groupRef}>
-      {nodes.map((node, i) => (
-        <mesh key={i} position={[node.x, node.y, node.z]}>
-          <sphereGeometry args={[0.08, 16, 16]} />
-          <meshStandardMaterial color="#06b6d4" emissive="#06b6d4" emissiveIntensity={2} />
-        </mesh>
       ))}
-    </group>
+    </div>
   );
 }
-
-function HeroScene() {
-  return (
-    <>
-      <ambientLight intensity={0.3} />
-      <pointLight position={[10, 10, 10]} intensity={2} color="#a855f7" />
-      <pointLight position={[-10, -10, -10]} intensity={1} color="#06b6d4" />
-      <pointLight position={[0, 0, 5]} intensity={1.5} color="#ec4899" />
-      <Stars radius={80} depth={50} count={3000} factor={4} saturation={0.5} fade speed={1} />
-      <ParticleField />
-      <NeuralNetwork />
-      <NeuralOrb position={[0, 0, 0]} color="#7c3aed" speed={0.8} distort={0.5} />
-      <NeuralOrb position={[4, 2, -2]} color="#0891b2" speed={1.2} distort={0.3} />
-      <NeuralOrb position={[-4, -1, -1]} color="#be185d" speed={0.6} distort={0.6} />
-      <NeuralOrb position={[2, -3, 1]} color="#059669" speed={1.0} distort={0.4} />
-    </>
-  );
-}
-
-// ─── Static UI Components ────────────────────────────────────────────────────
-
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: (i = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.1, duration: 0.7, ease: "easeOut" } as Transition,
-  }),
-};
 
 const features = [
-  { icon: Brain, title: "AI Command Centre", desc: "Unified intelligence hub for all your social channels with real-time AI insights and automated decision-making.", color: "from-purple-500 to-violet-600" },
-  { icon: Bot, title: "WhatsApp & Instagram Bots", desc: "DeepSeek-powered chatbots that handle customer queries, qualify leads, and drive sales 24/7 automatically.", color: "from-cyan-500 to-blue-600" },
-  { icon: BarChart3, title: "Deep Analytics Engine", desc: "360° business intelligence — ad spend, ROAS, engagement rates, audience demographics, and competitor benchmarks.", color: "from-pink-500 to-rose-600" },
-  { icon: Layers, title: "Content Studio", desc: "AI-generated posts, captions, and visuals tailored to your brand voice, scheduled and published automatically.", color: "from-emerald-500 to-teal-600" },
-  { icon: ShoppingBag, title: "Shopify Integration", desc: "Sync your product catalogue, track sales attribution, and auto-generate product posts from your store.", color: "from-orange-500 to-amber-600" },
-  { icon: Network, title: "MCP Server & OpenClaw", desc: "Self-hosted AI agent infrastructure that connects all your tools, platforms, and data sources into one brain.", color: "from-indigo-500 to-purple-600" },
+  {
+    icon: Brain,
+    title: "AI Intelligence Engine",
+    desc: "DeepSeek-powered analysis that reads your entire social media presence and delivers actionable insights in seconds.",
+    color: "#ff00cc",
+  },
+  {
+    icon: Bot,
+    title: "WhatsApp & Instagram Bots",
+    desc: "24/7 AI chatbots that handle customer queries, qualify leads, and drive sales while you sleep.",
+    color: "#00ffff",
+  },
+  {
+    icon: BarChart3,
+    title: "Deep Analytics",
+    desc: "Full 360° view of your Facebook, Instagram, ad spend, ROAS, and audience demographics in one command centre.",
+    color: "#ff66ff",
+  },
+  {
+    icon: Globe,
+    title: "Business Intelligence",
+    desc: "Paste any website URL and receive a complete competitive intelligence report in under 60 seconds.",
+    color: "#ff00cc",
+  },
+  {
+    icon: Sparkles,
+    title: "AI Content Studio",
+    desc: "Generate scroll-stopping posts, captions, and campaigns tailored to your brand voice and audience.",
+    color: "#00ffff",
+  },
+  {
+    icon: Cpu,
+    title: "MCP Server Infrastructure",
+    desc: "Enterprise-grade API layer connecting your entire marketing stack — Shopify, Meta, Google Ads, WhatsApp.",
+    color: "#ff66ff",
+  },
 ];
 
-const agenticProducts = [
-  { icon: Rocket, name: "Nexus Social", tag: "Social Media Intelligence", desc: "The AI command centre for social media — analytics, automation, chatbots, and content generation in one platform.", status: "Live" },
-  { icon: Globe, name: "Nexus Insights", tag: "Business Intelligence", desc: "Deep business analysis from any website URL — SEO, tech stack, competitive analysis, and market positioning.", status: "Live" },
-  { icon: MessageSquare, name: "Nexus Chat", tag: "Conversational AI", desc: "WhatsApp and Instagram AI chatbots powered by DeepSeek intelligence for sales, support, and lead generation.", status: "Beta" },
-  { icon: Code2, name: "Nexus Build", tag: "SaaS Development", desc: "Custom SaaS solutions built by our Agentic Lab — from concept to deployed product in weeks, not months.", status: "Available" },
+const stats = [
+  { value: 715469, suffix: "+", label: "Ad Spend Managed (ZAR)", icon: TrendingUp },
+  { value: 85208, suffix: "+", label: "Instagram Followers Tracked", icon: Users },
+  { value: 12, suffix: "", label: "MCP Tools Available", icon: Cpu },
+  { value: 6, suffix: "+", label: "Platform Integrations", icon: Target },
 ];
 
-const integrations = [
-  { name: "Facebook", icon: Facebook, color: "#1877F2" },
-  { name: "Instagram", icon: Instagram, color: "#E4405F" },
-  { name: "WhatsApp", icon: MessageSquare, color: "#25D366" },
-  { name: "Shopify", icon: ShoppingBag, color: "#96BF48" },
-  { name: "OpenClaw", icon: Cpu, color: "#a855f7" },
-  { name: "Google Ads", icon: BarChart3, color: "#4285F4" },
+const plans = [
+  {
+    name: "STARTER",
+    price: "R999",
+    period: "/mo",
+    desc: "Perfect for solo brands",
+    features: ["1 Social Account", "AI Content Generation", "Basic Analytics", "WhatsApp Bot"],
+    color: "#ff00cc",
+    popular: false,
+  },
+  {
+    name: "PRO",
+    price: "R2,499",
+    period: "/mo",
+    desc: "For growing businesses",
+    features: ["5 Social Accounts", "Full Analytics Suite", "AI Chatbots (WA + IG)", "Shopify Integration", "MCP Server Access"],
+    color: "#00ffff",
+    popular: true,
+  },
+  {
+    name: "AGENCY",
+    price: "R7,999",
+    period: "/mo",
+    desc: "White-label for agencies",
+    features: ["Unlimited Clients", "White-label Dashboard", "Google Ads Integration", "RAG Knowledge Base", "Priority Support", "Custom MCP Tools"],
+    color: "#ff66ff",
+    popular: false,
+  },
 ];
-
-// ─── Main Component ──────────────────────────────────────────────────────────
 
 export default function Home() {
-  const { isAuthenticated } = useAuth();
+  const { scrollY } = useScroll();
+  const heroY = useTransform(scrollY, [0, 600], [0, -120]);
+  const bullScale = useTransform(scrollY, [0, 400], [1, 1.08]);
+  const bullOpacity = useTransform(scrollY, [0, 500], [1, 0.4]);
+  const [videoPlaying, setVideoPlaying] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#030712] text-white overflow-x-hidden">
+    <div className="min-h-screen bg-[#050008] text-white overflow-x-hidden">
+      {/* ─── GLOBAL STYLES ─── */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap');
 
-      {/* ── Navigation ── */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 backdrop-blur-xl bg-black/20 border-b border-white/5">
+        .font-orbitron { font-family: 'Orbitron', monospace; }
+        .font-rajdhani { font-family: 'Rajdhani', sans-serif; }
+
+        .glitch-main {
+          position: relative;
+          color: #ff00cc;
+          text-shadow: 0 0 20px #ff00cc, 0 0 40px #ff00cc88;
+        }
+        .glitch-main::before,
+        .glitch-main::after {
+          content: attr(data-text);
+          position: absolute;
+          top: 0; left: 0;
+          width: 100%; height: 100%;
+        }
+        [data-text]::before {
+          content: attr(data-text);
+          position: absolute;
+          top: 0; left: 0;
+          color: #00ffff;
+          clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+          animation: glitch-top 3s infinite;
+          text-shadow: 2px 0 #00ffff;
+          opacity: 0.8;
+        }
+        [data-text]::after {
+          content: attr(data-text);
+          position: absolute;
+          top: 0; left: 0;
+          color: #ff66ff;
+          clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+          animation: glitch-bottom 3s infinite;
+          text-shadow: -2px 0 #ff66ff;
+          opacity: 0.8;
+        }
+        @keyframes glitch-top {
+          0%, 90%, 100% { transform: translate(0); }
+          92% { transform: translate(-3px, -1px); }
+          94% { transform: translate(3px, 1px); }
+          96% { transform: translate(-1px, 0); }
+        }
+        @keyframes glitch-bottom {
+          0%, 90%, 100% { transform: translate(0); }
+          92% { transform: translate(3px, 1px); }
+          94% { transform: translate(-3px, -1px); }
+          96% { transform: translate(1px, 0); }
+        }
+
+        .neon-border {
+          border: 1px solid rgba(255, 0, 204, 0.4);
+          box-shadow: 0 0 20px rgba(255, 0, 204, 0.15), inset 0 0 20px rgba(255, 0, 204, 0.05);
+        }
+        .neon-border-cyan {
+          border: 1px solid rgba(0, 255, 255, 0.4);
+          box-shadow: 0 0 20px rgba(0, 255, 255, 0.15), inset 0 0 20px rgba(0, 255, 255, 0.05);
+        }
+        .neon-btn {
+          background: linear-gradient(135deg, #ff00cc, #cc00ff);
+          box-shadow: 0 0 30px rgba(255, 0, 204, 0.5), 0 0 60px rgba(255, 0, 204, 0.2);
+          transition: all 0.3s ease;
+        }
+        .neon-btn:hover {
+          box-shadow: 0 0 50px rgba(255, 0, 204, 0.8), 0 0 100px rgba(255, 0, 204, 0.4);
+          transform: translateY(-2px);
+        }
+        .neon-btn-outline {
+          background: transparent;
+          border: 1px solid rgba(0, 255, 255, 0.6);
+          color: #00ffff;
+          box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+          transition: all 0.3s ease;
+        }
+        .neon-btn-outline:hover {
+          background: rgba(0, 255, 255, 0.1);
+          box-shadow: 0 0 40px rgba(0, 255, 255, 0.5);
+        }
+        .bull-glow {
+          filter: drop-shadow(0 0 40px rgba(255, 0, 204, 0.6)) drop-shadow(0 0 80px rgba(255, 0, 204, 0.3));
+        }
+        .scan-line {
+          background: linear-gradient(transparent 50%, rgba(255, 0, 204, 0.03) 50%);
+          background-size: 100% 4px;
+          pointer-events: none;
+        }
+        .card-hover {
+          transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+          transform: translateY(-6px);
+        }
+        .popular-badge {
+          background: linear-gradient(135deg, #00ffff, #0088ff);
+          box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        }
+      `}</style>
+
+      {/* ─── NAVBAR ─── */}
+      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4"
+        style={{ background: "rgba(5, 0, 8, 0.85)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,0,204,0.2)" }}>
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center">
-            <Zap className="w-4 h-4 text-white" />
+          <img src={BULL_CDN} alt="StudEx" className="w-10 h-10 rounded-lg object-cover" style={{ boxShadow: "0 0 15px rgba(255,0,204,0.5)" }} />
+          <div>
+            <div className="font-orbitron text-sm font-bold text-white leading-none">NEXUS SOCIAL</div>
+            <div className="font-rajdhani text-xs text-pink-400 leading-none">by StudEx D#VOP$</div>
           </div>
-          <span className="font-bold text-lg tracking-tight">Nexus<span className="text-purple-400">Social</span></span>
-          <span className="text-xs text-white/30 ml-1">by Agentic Lab</span>
         </div>
-        <div className="hidden md:flex items-center gap-8 text-sm text-white/60">
-          <a href="#features" className="hover:text-white transition-colors">Features</a>
-          <a href="#products" className="hover:text-white transition-colors">Products</a>
-          <a href="#integrations" className="hover:text-white transition-colors">Integrations</a>
-          <Link href="/pricing" className="hover:text-white transition-colors">Pricing</Link>
+        <div className="hidden md:flex items-center gap-8">
+          {["Features", "Analytics", "Pricing", "Agentic Lab"].map((item) => (
+            <a key={item} href={`#${item.toLowerCase().replace(" ", "-")}`}
+              className="font-rajdhani text-sm text-gray-400 hover:text-pink-400 transition-colors tracking-wider uppercase">
+              {item}
+            </a>
+          ))}
         </div>
-        <div className="flex items-center gap-3">
-          {isAuthenticated ? (
-            <Link href="/dashboard">
-              <button className="px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 text-sm font-medium transition-all">
-                Dashboard →
-              </button>
-            </Link>
-          ) : (
-            <>
-              <a href={getLoginUrl()} className="text-sm text-white/60 hover:text-white transition-colors">Sign in</a>
-              <a href={getLoginUrl()} className="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 text-sm font-medium transition-all shadow-lg shadow-purple-500/25">
-                Get Started Free
-              </a>
-            </>
-          )}
-        </div>
+        <Link href="/dashboard">
+          <button className="neon-btn font-orbitron text-xs font-bold text-white px-5 py-2 rounded-lg">
+            LAUNCH →
+          </button>
+        </Link>
       </nav>
 
-      {/* ── Hero Section ── */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        {/* 3D Canvas */}
-        <div className="absolute inset-0">
-          <Canvas camera={{ position: [0, 0, 8], fov: 60 }} gl={{ antialias: true, alpha: true }}>
-            <Suspense fallback={null}>
-              <HeroScene />
-            </Suspense>
-          </Canvas>
-        </div>
+      {/* ─── HERO SECTION ─── */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+        <NeonGrid />
+        <Particles />
+        {/* Scan line overlay */}
+        <div className="absolute inset-0 scan-line opacity-30 pointer-events-none" />
 
-        {/* Gradient overlays */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#030712]/20 to-[#030712]" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#030712]/60 via-transparent to-[#030712]/60" />
-
-        {/* Hero Content */}
-        <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
+        <div className="relative z-10 container mx-auto px-6 flex flex-col lg:flex-row items-center gap-12 lg:gap-0">
+          {/* Left — Text */}
           <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={fadeUp}
-            custom={0}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-purple-300 mb-8 backdrop-blur-sm"
+            className="flex-1 text-center lg:text-left"
+            style={{ y: heroY }}
+            initial={{ opacity: 0, x: -60 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
-            Agentic Lab — Building the Future of AI SaaS
-          </motion.div>
-
-          <motion.h1
-            initial="hidden"
-            animate="visible"
-            variants={fadeUp}
-            custom={1}
-            className="text-5xl md:text-7xl font-black tracking-tight mb-6 leading-tight"
-          >
-            The AI{" "}
-            <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
-              Command Centre
-            </span>
-            <br />for Social Media
-          </motion.h1>
-
-          <motion.p
-            initial="hidden"
-            animate="visible"
-            variants={fadeUp}
-            custom={2}
-            className="text-lg md:text-xl text-white/60 max-w-2xl mx-auto mb-10 leading-relaxed"
-          >
-            Nexus Social is the flagship product of our Agentic Lab — a fully automated social media intelligence platform with AI chatbots, deep analytics, content generation, and MCP server infrastructure.
-          </motion.p>
-
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={fadeUp}
-            custom={3}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
-          >
-            <a
-              href={isAuthenticated ? "/dashboard" : getLoginUrl()}
-              className="group flex items-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 font-semibold text-lg transition-all shadow-2xl shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-105"
+            {/* Badge */}
+            <motion.div
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 font-rajdhani text-xs tracking-widest uppercase"
+              style={{ background: "rgba(255,0,204,0.1)", border: "1px solid rgba(255,0,204,0.4)", color: "#ff00cc" }}
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
             >
-              Launch Command Centre
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </a>
-            <a
-              href="#features"
-              className="flex items-center gap-2 px-8 py-4 rounded-xl border border-white/10 hover:border-white/20 bg-white/5 hover:bg-white/10 font-medium text-white/80 hover:text-white transition-all backdrop-blur-sm"
-            >
-              Explore Features
-            </a>
-          </motion.div>
+              <span className="w-2 h-2 rounded-full bg-pink-500 animate-pulse" />
+              Agentic Lab — AI SaaS Command Centre
+            </motion.div>
 
-          {/* Stats */}
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={fadeUp}
-            custom={4}
-            className="flex items-center justify-center gap-12 mt-16 text-center"
-          >
-            {[
-              { value: "R715K+", label: "Ad Spend Managed" },
-              { value: "85K+", label: "Instagram Followers" },
-              { value: "6+", label: "Platform Integrations" },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <div className="text-2xl font-black text-white">{stat.value}</div>
-                <div className="text-xs text-white/40 mt-1">{stat.label}</div>
+            {/* Headline */}
+            <h1 className="font-orbitron font-black leading-none mb-6">
+              <div className="text-4xl lg:text-6xl text-white mb-2">THE AI</div>
+              <div className="text-5xl lg:text-7xl mb-2">
+                <GlitchText>COMMAND</GlitchText>
               </div>
-            ))}
+              <div className="text-4xl lg:text-6xl text-white">CENTRE</div>
+            </h1>
+
+            <p className="font-rajdhani text-lg text-gray-300 mb-8 max-w-lg leading-relaxed">
+              The flagship product of <span className="text-pink-400 font-bold">StudEx D#VOP$ Agentic Lab</span> — 
+              a fully automated social media intelligence platform with AI chatbots, deep analytics, 
+              content generation, and MCP server infrastructure.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <Link href="/dashboard">
+                <button className="neon-btn font-orbitron text-sm font-bold text-white px-8 py-4 rounded-xl flex items-center gap-2">
+                  <Zap className="w-4 h-4" />
+                  LAUNCH COMMAND CENTRE
+                </button>
+              </Link>
+              <button className="neon-btn-outline font-orbitron text-sm font-bold px-8 py-4 rounded-xl flex items-center gap-2">
+                <Play className="w-4 h-4" />
+                WATCH DEMO
+              </button>
+            </div>
+
+            {/* Mini stats */}
+            <div className="flex gap-8 mt-10 justify-center lg:justify-start">
+              {[
+                { val: "R715K+", label: "Ad Spend" },
+                { val: "85K+", label: "IG Followers" },
+                { val: "6+", label: "Platforms" },
+              ].map((s) => (
+                <div key={s.label} className="text-center">
+                  <div className="font-orbitron text-xl font-black text-pink-400">{s.val}</div>
+                  <div className="font-rajdhani text-xs text-gray-500 uppercase tracking-wider">{s.label}</div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Right — Bull Hero Image */}
+          <motion.div
+            className="flex-1 flex items-center justify-center relative"
+            style={{ scale: bullScale, opacity: bullOpacity }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, ease: "easeOut", delay: 0.3 }}
+          >
+            {/* Outer glow rings */}
+            <div className="absolute w-[500px] h-[500px] rounded-full"
+              style={{ background: "radial-gradient(circle, rgba(255,0,204,0.15) 0%, transparent 70%)", animation: "pulse 3s ease-in-out infinite" }} />
+            <div className="absolute w-[400px] h-[400px] rounded-full border border-pink-500/20 animate-spin"
+              style={{ animationDuration: "20s" }} />
+            <div className="absolute w-[340px] h-[340px] rounded-full border border-cyan-500/20 animate-spin"
+              style={{ animationDuration: "15s", animationDirection: "reverse" }} />
+
+            {/* Bull image */}
+            <motion.img
+              src={BULL_CDN}
+              alt="StudEx D#VOP$ — Cyberpunk Bull"
+              className="bull-glow relative z-10 w-72 h-72 lg:w-96 lg:h-96 object-cover rounded-2xl"
+              style={{ border: "2px solid rgba(255,0,204,0.5)" }}
+              animate={{ y: [0, -12, 0] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            />
+
+            {/* Floating data cards */}
+            <motion.div
+              className="absolute top-8 right-0 neon-border rounded-xl px-4 py-3 text-xs font-rajdhani"
+              style={{ background: "rgba(5,0,8,0.9)" }}
+              animate={{ y: [0, -8, 0] }}
+              transition={{ duration: 3, repeat: Infinity, delay: 0.5 }}
+            >
+              <div className="text-pink-400 font-bold">LIVE ANALYTICS</div>
+              <div className="text-gray-400">85,208 followers tracked</div>
+            </motion.div>
+            <motion.div
+              className="absolute bottom-12 left-0 neon-border-cyan rounded-xl px-4 py-3 text-xs font-rajdhani"
+              style={{ background: "rgba(5,0,8,0.9)" }}
+              animate={{ y: [0, -8, 0] }}
+              transition={{ duration: 3, repeat: Infinity, delay: 1.2 }}
+            >
+              <div className="text-cyan-400 font-bold">AI CHATBOT</div>
+              <div className="text-gray-400">DeepSeek Intelligence</div>
+            </motion.div>
           </motion.div>
         </div>
 
         {/* Scroll indicator */}
         <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ repeat: Infinity, duration: 2 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/30"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
         >
-          <ChevronDown className="w-6 h-6" />
+          <span className="font-rajdhani text-xs text-gray-500 tracking-widest uppercase">Scroll</span>
+          <ChevronDown className="w-4 h-4 text-pink-500" />
         </motion.div>
       </section>
 
-      {/* ── Features Section ── */}
-      <section id="features" className="py-32 px-6 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-950/10 to-transparent pointer-events-none" />
-        <div className="max-w-6xl mx-auto">
+      {/* ─── STATS BAR ─── */}
+      <section className="relative py-16" style={{ background: "rgba(255,0,204,0.05)", borderTop: "1px solid rgba(255,0,204,0.2)", borderBottom: "1px solid rgba(255,0,204,0.2)" }}>
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+            {stats.map((stat, i) => (
+              <motion.div
+                key={stat.label}
+                className="text-center"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <stat.icon className="w-6 h-6 text-pink-400 mx-auto mb-2" />
+                <div className="font-orbitron text-3xl font-black text-white">
+                  <Counter target={stat.value} suffix={stat.suffix} />
+                </div>
+                <div className="font-rajdhani text-sm text-gray-500 uppercase tracking-wider mt-1">{stat.label}</div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── FEATURES ─── */}
+      <section id="features" className="relative py-24">
+        <NeonGrid />
+        <div className="relative z-10 container mx-auto px-6">
           <motion.div
-            initial="hidden"
-            whileInView="visible"
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            variants={fadeUp}
-            className="text-center mb-20"
           >
-            <span className="text-sm text-purple-400 font-medium tracking-widest uppercase">Platform Capabilities</span>
-            <h2 className="text-4xl md:text-5xl font-black mt-4 mb-6">
-              Everything your social media<br />
-              <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">engine needs</span>
+            <div className="font-rajdhani text-pink-400 text-sm tracking-widest uppercase mb-3">What We Build</div>
+            <h2 className="font-orbitron text-4xl lg:text-5xl font-black text-white mb-4">
+              THE <GlitchText>ARSENAL</GlitchText>
             </h2>
-            <p className="text-white/50 text-lg max-w-2xl mx-auto">
-              Built by the Agentic Lab — a team that uses every tool we build, constantly improving through real-world experience.
+            <p className="font-rajdhani text-gray-400 text-lg max-w-2xl mx-auto">
+              Every tool you need to dominate your social media presence, automate your marketing, and scale your business.
             </p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((feature, i) => (
+            {features.map((feat, i) => (
               <motion.div
-                key={feature.title}
-                initial="hidden"
-                whileInView="visible"
+                key={feat.title}
+                className="neon-border rounded-2xl p-6 card-hover cursor-pointer"
+                style={{ background: "rgba(5,0,8,0.8)" }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
                 viewport={{ once: true }}
-                variants={fadeUp}
-                custom={i * 0.5}
-                whileHover={{ y: -8, scale: 1.02 }}
-                className="group relative p-6 rounded-2xl bg-white/[0.03] border border-white/[0.06] hover:border-white/10 backdrop-blur-sm transition-all cursor-default overflow-hidden"
+                whileHover={{ borderColor: feat.color }}
               >
-                <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-5 transition-opacity`} />
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feature.color} flex items-center justify-center mb-4 shadow-lg`}>
-                  <feature.icon className="w-6 h-6 text-white" />
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
+                  style={{ background: `${feat.color}22`, border: `1px solid ${feat.color}44` }}>
+                  <feat.icon className="w-6 h-6" style={{ color: feat.color }} />
                 </div>
-                <h3 className="text-lg font-bold mb-2 text-white">{feature.title}</h3>
-                <p className="text-white/50 text-sm leading-relaxed">{feature.desc}</p>
+                <h3 className="font-orbitron text-sm font-bold text-white mb-2">{feat.title}</h3>
+                <p className="font-rajdhani text-gray-400 text-sm leading-relaxed">{feat.desc}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Agentic Lab Products ── */}
-      <section id="products" className="py-32 px-6 relative">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeUp}
-            className="text-center mb-20"
-          >
-            <span className="text-sm text-cyan-400 font-medium tracking-widest uppercase">Agentic Lab Portfolio</span>
-            <h2 className="text-4xl md:text-5xl font-black mt-4 mb-6">
-              SaaS solutions built for<br />
-              <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">real businesses</span>
-            </h2>
-            <p className="text-white/50 text-lg max-w-2xl mx-auto">
-              We build and use every product ourselves first, gaining real experience before selling to clients. This is how we guarantee results.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {agenticProducts.map((product, i) => (
-              <motion.div
-                key={product.name}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={fadeUp}
-                custom={i * 0.3}
-                whileHover={{ y: -6 }}
-                className="group relative p-8 rounded-2xl bg-gradient-to-br from-white/[0.04] to-white/[0.01] border border-white/[0.07] hover:border-purple-500/30 transition-all overflow-hidden"
-              >
-                <div className="absolute top-0 right-0 w-48 h-48 bg-purple-600/5 rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-purple-600/10 transition-colors" />
-                <div className="flex items-start justify-between mb-4">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-600/30 to-cyan-600/30 border border-white/10 flex items-center justify-center">
-                    <product.icon className="w-7 h-7 text-white" />
-                  </div>
-                  <span className={`text-xs px-3 py-1 rounded-full font-medium ${
-                    product.status === "Live" ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30" :
-                    product.status === "Beta" ? "bg-amber-500/20 text-amber-400 border border-amber-500/30" :
-                    "bg-blue-500/20 text-blue-400 border border-blue-500/30"
-                  }`}>
-                    {product.status}
-                  </span>
-                </div>
-                <div className="text-xs text-purple-400 font-medium mb-1">{product.tag}</div>
-                <h3 className="text-xl font-bold mb-3 text-white">{product.name}</h3>
-                <p className="text-white/50 text-sm leading-relaxed">{product.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Integrations ── */}
-      <section id="integrations" className="py-32 px-6 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-950/10 to-transparent pointer-events-none" />
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeUp}
-          >
-            <span className="text-sm text-pink-400 font-medium tracking-widest uppercase">Integrations</span>
-            <h2 className="text-4xl md:text-5xl font-black mt-4 mb-6">
-              Connects to everything<br />
-              <span className="bg-gradient-to-r from-pink-400 to-orange-400 bg-clip-text text-transparent">you already use</span>
-            </h2>
-          </motion.div>
-
-          <div className="flex flex-wrap items-center justify-center gap-4 mt-12">
-            {integrations.map((integration, i) => (
-              <motion.div
-                key={integration.name}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={fadeUp}
-                custom={i * 0.2}
-                whileHover={{ scale: 1.1, y: -4 }}
-                className="flex items-center gap-3 px-5 py-3 rounded-xl bg-white/[0.04] border border-white/[0.07] hover:border-white/15 transition-all cursor-default"
-              >
-                <integration.icon className="w-5 h-5" style={{ color: integration.color }} />
-                <span className="text-sm font-medium text-white/80">{integration.name}</span>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Why Agentic Lab ── */}
-      <section className="py-32 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      {/* ─── BULL SHOWCASE BANNER ─── */}
+      <section className="relative py-24 overflow-hidden">
+        <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(255,0,204,0.1) 0%, rgba(0,0,0,0) 50%, rgba(0,255,255,0.05) 100%)" }} />
+        <div className="absolute inset-0" style={{
+          backgroundImage: `linear-gradient(rgba(255,0,200,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(255,0,200,0.15) 1px, transparent 1px)`,
+          backgroundSize: "40px 40px",
+        }} />
+        <div className="relative z-10 container mx-auto px-6">
+          <div className="flex flex-col lg:flex-row items-center gap-12">
             <motion.div
-              initial="hidden"
-              whileInView="visible"
+              className="flex-1"
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              variants={fadeUp}
             >
-              <span className="text-sm text-emerald-400 font-medium tracking-widest uppercase">Why Agentic Lab</span>
-              <h2 className="text-4xl md:text-5xl font-black mt-4 mb-6 leading-tight">
-                We build what we<br />
-                <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">use ourselves</span>
+              <div className="font-rajdhani text-pink-400 text-sm tracking-widest uppercase mb-3">Agentic Lab</div>
+              <h2 className="font-orbitron text-4xl lg:text-5xl font-black text-white mb-6 leading-tight">
+                WE BUILD<br /><GlitchText>AI SAAS</GlitchText><br />SOLUTIONS
               </h2>
-              <p className="text-white/60 text-lg leading-relaxed mb-8">
-                Every product in our portfolio is battle-tested on real businesses — including StudEx Meat, our own brand with R715K+ in managed ad spend and 85K+ Instagram followers. We do not sell theory. We sell proven systems.
+              <p className="font-rajdhani text-gray-300 text-lg leading-relaxed mb-8 max-w-lg">
+                StudEx D#VOP$ Agentic Lab is where cutting-edge AI meets real business results. 
+                We build, deploy, and operate AI-powered SaaS platforms for brands that want to 
+                dominate their market. Nexus Social is our flagship — and we use it ourselves first.
               </p>
-              <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4 mb-8">
                 {[
-                  { icon: Shield, text: "Built on real business data — not demos" },
-                  { icon: Rocket, text: "Continuously improved through live usage" },
-                  { icon: Users, text: "Sold to clients only after we prove it works" },
-                  { icon: Cpu, text: "Powered by DeepSeek intelligence + MCP infrastructure" },
+                  "MCP Server Infrastructure",
+                  "AI Chatbot Automation",
+                  "Social Media Command Centre",
+                  "Business Intelligence RAG",
                 ].map((item) => (
-                  <div key={item.text} className="flex items-center gap-3 text-white/70">
-                    <div className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0">
-                      <item.icon className="w-4 h-4 text-emerald-400" />
-                    </div>
-                    <span className="text-sm">{item.text}</span>
+                  <div key={item} className="flex items-center gap-2 font-rajdhani text-sm text-gray-300">
+                    <div className="w-1.5 h-1.5 rounded-full bg-pink-500 flex-shrink-0" />
+                    {item}
                   </div>
                 ))}
               </div>
+              <Link href="/dashboard">
+                <button className="neon-btn font-orbitron text-sm font-bold text-white px-8 py-4 rounded-xl flex items-center gap-2">
+                  EXPLORE THE LAB <ArrowRight className="w-4 h-4" />
+                </button>
+              </Link>
             </motion.div>
 
             <motion.div
-              initial="hidden"
-              whileInView="visible"
+              className="flex-1 flex justify-center"
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              variants={fadeUp}
-              custom={1}
-              className="relative h-80 rounded-3xl overflow-hidden border border-white/10"
             >
-              <Canvas camera={{ position: [0, 0, 5], fov: 60 }}>
-                <ambientLight intensity={0.5} />
-                <pointLight position={[5, 5, 5]} intensity={2} color="#10b981" />
-                <pointLight position={[-5, -5, 5]} intensity={1} color="#06b6d4" />
-                <Stars radius={30} depth={20} count={1000} factor={3} fade />
-                <NeuralOrb position={[0, 0, 0]} color="#059669" speed={0.5} distort={0.6} />
-                <NeuralOrb position={[2, 1, -1]} color="#0891b2" speed={0.8} distort={0.3} />
-                <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={1} />
-              </Canvas>
-              <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-transparent to-transparent" />
-              <div className="absolute bottom-6 left-6 right-6">
-                <div className="text-xs text-white/40 mb-1">Live Platform Data</div>
-                <div className="text-2xl font-black text-white">StudEx Meat</div>
-                <div className="text-sm text-emerald-400">R715,469 total ad spend · 85K followers</div>
+              <div className="relative">
+                {/* Hexagonal frame effect */}
+                <div className="absolute -inset-4 rounded-3xl"
+                  style={{ background: "linear-gradient(135deg, rgba(255,0,204,0.3), rgba(0,255,255,0.3))", filter: "blur(20px)" }} />
+                <img
+                  src={BULL_CDN}
+                  alt="StudEx D#VOP$ Agentic Lab"
+                  className="relative z-10 w-80 h-80 object-cover rounded-2xl"
+                  style={{ border: "2px solid rgba(255,0,204,0.6)", boxShadow: "0 0 60px rgba(255,0,204,0.4)" }}
+                />
+                {/* Corner accents */}
+                <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-pink-500 rounded-tl-lg" />
+                <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-cyan-400 rounded-tr-lg" />
+                <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-cyan-400 rounded-bl-lg" />
+                <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-pink-500 rounded-br-lg" />
               </div>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* ── CTA Section ── */}
-      <section className="py-32 px-6 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-950/30 via-transparent to-cyan-950/30 pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="max-w-3xl mx-auto text-center relative z-10">
+      {/* ─── PRICING ─── */}
+      <section id="pricing" className="relative py-24">
+        <NeonGrid />
+        <div className="relative z-10 container mx-auto px-6">
           <motion.div
-            initial="hidden"
-            whileInView="visible"
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            variants={fadeUp}
           >
-            <h2 className="text-4xl md:text-6xl font-black mb-6 leading-tight">
-              Ready to launch your<br />
-              <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">AI command centre?</span>
+            <div className="font-rajdhani text-pink-400 text-sm tracking-widest uppercase mb-3">Pricing</div>
+            <h2 className="font-orbitron text-4xl lg:text-5xl font-black text-white mb-4">
+              CHOOSE YOUR <GlitchText>TIER</GlitchText>
             </h2>
-            <p className="text-white/50 text-lg mb-10">
-              Join the Agentic Lab ecosystem. Get access to Nexus Social, our MCP server infrastructure, AI chatbots, and the full social media engine.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a
-                href={isAuthenticated ? "/dashboard" : getLoginUrl()}
-                className="group flex items-center gap-2 px-10 py-5 rounded-2xl bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 font-bold text-xl transition-all shadow-2xl shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-105"
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {plans.map((plan, i) => (
+              <motion.div
+                key={plan.name}
+                className={`relative rounded-2xl p-6 card-hover ${plan.popular ? "neon-border-cyan scale-105" : "neon-border"}`}
+                style={{ background: "rgba(5,0,8,0.9)" }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.15 }}
+                viewport={{ once: true }}
               >
-                Start for Free
-                <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
-              </a>
-              <Link href="/pricing">
-                <button className="px-10 py-5 rounded-2xl border border-white/10 hover:border-white/20 bg-white/5 hover:bg-white/10 font-semibold text-lg text-white/80 hover:text-white transition-all">
-                  View Pricing
+                {plan.popular && (
+                  <div className="popular-badge absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full font-orbitron text-xs font-bold text-black">
+                    MOST POPULAR
+                  </div>
+                )}
+                <div className="font-orbitron text-sm font-bold mb-1" style={{ color: plan.color }}>{plan.name}</div>
+                <div className="font-rajdhani text-gray-400 text-sm mb-4">{plan.desc}</div>
+                <div className="flex items-baseline gap-1 mb-6">
+                  <span className="font-orbitron text-4xl font-black text-white">{plan.price}</span>
+                  <span className="font-rajdhani text-gray-500">{plan.period}</span>
+                </div>
+                <ul className="space-y-2 mb-6">
+                  {plan.features.map((f) => (
+                    <li key={f} className="flex items-center gap-2 font-rajdhani text-sm text-gray-300">
+                      <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: plan.color }} />
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  className="w-full py-3 rounded-xl font-orbitron text-xs font-bold transition-all"
+                  style={plan.popular
+                    ? { background: `linear-gradient(135deg, ${plan.color}, #0088ff)`, color: "#000", boxShadow: `0 0 20px ${plan.color}66` }
+                    : { border: `1px solid ${plan.color}66`, color: plan.color, background: "transparent" }
+                  }
+                >
+                  GET STARTED
+                </button>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── CTA FOOTER ─── */}
+      <section className="relative py-24 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_50%,rgba(255,0,204,0.15),transparent)]" />
+        <div className="absolute inset-0" style={{
+          backgroundImage: `linear-gradient(rgba(255,0,200,0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(255,0,200,0.2) 1px, transparent 1px)`,
+          backgroundSize: "30px 30px",
+        }} />
+        <div className="relative z-10 container mx-auto px-6 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <img src={BULL_CDN} alt="StudEx" className="w-24 h-24 rounded-2xl object-cover mx-auto mb-6 bull-glow" />
+            <h2 className="font-orbitron text-4xl lg:text-6xl font-black text-white mb-4">
+              READY TO <GlitchText>DOMINATE</GlitchText>?
+            </h2>
+            <p className="font-rajdhani text-gray-300 text-xl mb-8 max-w-2xl mx-auto">
+              Join the Agentic Lab ecosystem. Automate your marketing, amplify your brand, and let AI do the heavy lifting.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/dashboard">
+                <button className="neon-btn font-orbitron text-sm font-bold text-white px-10 py-4 rounded-xl flex items-center gap-2">
+                  <Zap className="w-4 h-4" />
+                  START FREE TRIAL
+                </button>
+              </Link>
+              <Link href="/dashboard">
+                <button className="neon-btn-outline font-orbitron text-sm font-bold px-10 py-4 rounded-xl flex items-center gap-2">
+                  <MessageSquare className="w-4 h-4" />
+                  TALK TO US
                 </button>
               </Link>
             </div>
@@ -538,25 +709,23 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Footer ── */}
-      <footer className="border-t border-white/5 py-12 px-6">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      {/* ─── FOOTER ─── */}
+      <footer className="relative py-8 border-t border-pink-900/30">
+        <div className="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center">
-              <Zap className="w-4 h-4 text-white" />
-            </div>
+            <img src={BULL_CDN} alt="StudEx" className="w-8 h-8 rounded-lg object-cover" />
             <div>
-              <div className="font-bold text-white">Nexus Social</div>
-              <div className="text-xs text-white/30">by Agentic Lab</div>
+              <div className="font-orbitron text-xs font-bold text-white">NEXUS SOCIAL</div>
+              <div className="font-rajdhani text-xs text-gray-500">by StudEx D#VOP$ Agentic Lab</div>
             </div>
           </div>
-          <div className="text-sm text-white/30">
-            © 2026 Agentic Lab. Building AI SaaS solutions that actually work.
+          <div className="font-rajdhani text-xs text-gray-600">
+            © 2026 StudEx D#VOP$ Agentic Lab. All rights reserved.
           </div>
-          <div className="flex items-center gap-6 text-sm text-white/40">
-            <Link href="/pricing" className="hover:text-white transition-colors">Pricing</Link>
-            <Link href="/dashboard" className="hover:text-white transition-colors">Dashboard</Link>
-            <a href="#features" className="hover:text-white transition-colors">Features</a>
+          <div className="flex gap-6">
+            {["Privacy", "Terms", "Contact"].map((item) => (
+              <a key={item} href="#" className="font-rajdhani text-xs text-gray-500 hover:text-pink-400 transition-colors">{item}</a>
+            ))}
           </div>
         </div>
       </footer>
