@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/sidebar";
 import { getLoginUrl } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { LayoutDashboard, LogOut, PanelLeft, Search, Globe, Clock, Brain, Zap, Sparkles, Link, Tag, Bot, Cpu, BarChart2, BookOpen, Info } from "lucide-react";
+import { LayoutDashboard, LogOut, PanelLeft, Search, Globe, Clock, Brain, Zap, Sparkles, Link, Tag, Bot, Cpu, BarChart2, BookOpen, Info, Film } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
@@ -39,6 +39,7 @@ const menuItems = [
   { icon: Tag, label: "Pricing & SaaS", path: "/pricing" },
   { icon: BarChart2, label: "Live Analytics", path: "/analytics" },
   { icon: BookOpen, label: "Knowledge Base", path: "/knowledge" },
+  { icon: Film, label: "Higgsfield Studio", path: "/higgsfield" },
   { icon: Info, label: "About the Lab", path: "/about" },
 ];
 

@@ -215,3 +215,14 @@
 - [x] Wire KnowledgeBase.tsx "Ask Brain" to real LLM-powered RAG query
 - [x] Show real search results with source citations in the UI
 - [x] Add document management (list, delete knowledge entries)
+
+## Higgsfield AI Studio Integration
+- [x] Research Higgsfield API (REST, Bearer auth, text-to-image, image-to-video, text-to-video)
+- [x] Add higgsfield to integrations enum in schema + higgsfieldApiKey and higgsfieldUsername fields
+- [x] Apply migration (ALTER TABLE integrations)
+- [x] Build higgsfield.ts router: connect, disconnect, testConnection, generateImage, generateVideo, generateTextToVideo, getGenerationStatus, listGenerations
+- [x] Register higgsfieldRouter in main routers.ts
+- [x] Build HiggsfieldStudio.tsx page with connect flow, 3-tab generation UI, polling, and result preview
+- [x] Add Higgsfield Studio to sidebar nav (Film icon)
+- [x] Add /higgsfield route to App.tsx
+- [x] All 27 tests passing
