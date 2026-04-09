@@ -266,8 +266,8 @@ export type AnalysisCache = typeof analysisCache.$inferSelect;
 // ─── RAG INDEX ────────────────────────────────────────────────────────────────
 export const ragIndex = mysqlTable("ragIndex", {
   id: int("id").autoincrement().primaryKey(),
-  analysisId: int("analysisId").notNull(),
-  domain: varchar("domain", { length: 512 }).notNull(),
+  analysisId: int("analysisId"),           // nullable — not all chunks come from analyses
+  domain: varchar("domain", { length: 512 }),
   chunkType: varchar("chunkType", { length: 64 }).notNull(),
   content: text("content").notNull(),
   embedding: json("embedding"),
@@ -275,3 +275,20 @@ export const ragIndex = mysqlTable("ragIndex", {
 });
 
 export type RagIndex = typeof ragIndex.$inferSelect;
+
+// ─── KNOWLEDGE DOCUMENTS ─────────────────────────────────────────────────────
+export const knowledgeDocs = mysqlTable("knowledgeDocs", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  title: varchar("title", { length: 512 }).notNull(),
+  source: varchar("source", { length: 256 }).default("manual"),
+  docType: mysqlEnum("docType", ["research", "transcript", "report", "notes", "strategy", "client"]).default("notes").notNull(),
+  content: text("content").notNull(),
+  tags: json("tags"),
+  chunkCount: int("chunkCount").default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type KnowledgeDoc = typeof knowledgeDocs.$inferSelect;
+export type InsertKnowledgeDoc = typeof knowledgeDocs.$inferInsert;

@@ -16,6 +16,9 @@ import SaaS from "./pages/SaaS";
 import Chatbots from "./pages/Chatbots";
 import MCPServer from "./pages/MCPServer";
 import Pricing from "./pages/Pricing";
+import KnowledgeBase from "./pages/KnowledgeBase";
+import Analytics from "./pages/Analytics";
+import About from "./pages/About";
 
 function Router() {
   return (
@@ -32,6 +35,9 @@ function Router() {
       <Route path="/saas" component={SaaS} />
       <Route path="/chatbots" component={Chatbots} />
       <Route path="/mcp" component={MCPServer} />
+      <Route path="/analytics" component={Analytics} />
+      <Route path="/knowledge" component={KnowledgeBase} />
+      <Route path="/about" component={About} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

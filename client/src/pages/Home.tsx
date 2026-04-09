@@ -148,7 +148,7 @@ const features = [
   {
     icon: BarChart3,
     title: "Deep Analytics",
-    desc: "Full 360° view of your Facebook, Instagram, ad spend, ROAS, and audience demographics in one command centre.",
+    desc: "Full 360° view of your Facebook, Instagram, content performance, and audience demographics in one command centre.",
     color: "#ff66ff",
   },
   {
@@ -172,7 +172,7 @@ const features = [
 ];
 
 const stats = [
-  { value: 715469, suffix: "+", label: "Ad Spend Managed (ZAR)", icon: TrendingUp },
+  { value: 1200, suffix: "+", label: "Intelligence Reports Generated", icon: TrendingUp },
   { value: 85208, suffix: "+", label: "Instagram Followers Tracked", icon: Users },
   { value: 12, suffix: "", label: "MCP Tools Available", icon: Cpu },
   { value: 6, suffix: "+", label: "Platform Integrations", icon: Target },
@@ -401,8 +401,8 @@ export default function Home() {
             {/* Mini stats */}
             <div className="flex gap-8 mt-10 justify-center lg:justify-start">
               {[
-                { val: "R715K+", label: "Ad Spend" },
-                { val: "85K+", label: "IG Followers" },
+                { val: "1.2K+", label: "Reports" },
+                { val: "85K+", label: "IG Reach" },
                 { val: "6+", label: "Platforms" },
               ].map((s) => (
                 <div key={s.label} className="text-center">
@@ -447,7 +447,7 @@ export default function Home() {
               transition={{ duration: 3, repeat: Infinity, delay: 0.5 }}
             >
               <div className="text-pink-400 font-bold">LIVE ANALYTICS</div>
-              <div className="text-gray-400">85,208 followers tracked</div>
+              <div className="text-gray-400">85,208 audience reach tracked</div>
             </motion.div>
             <motion.div
               className="absolute bottom-12 left-0 neon-border-cyan rounded-xl px-4 py-3 text-xs font-rajdhani"

@@ -185,3 +185,33 @@
 - [x] Annual/monthly billing toggle with savings badge
 - [x] CTA buttons per tier
 - [x] Pricing page route and navigation link
+
+## In-House Rebrand & Deep Intelligence (Phase 3)
+- [ ] Remove ad spend references from landing page and dashboard
+- [ ] Rebrand as StudEx DevOps internal intelligence tool
+- [ ] Connect live Facebook API data to analytics dashboard
+- [ ] Connect live Instagram API data to analytics dashboard
+- [ ] Deep analytics reports with AI-generated insights
+- [ ] PDF report generation for Facebook/Instagram performance
+
+## RAG & Knowledge Base (Phase 3)
+- [ ] AnythingLLM integration guide and setup instructions
+- [ ] Meeting transcript upload and storage (video call transcripts)
+- [ ] RAG knowledge base page with semantic search
+- [ ] Obsidian integration guide for knowledge management
+- [ ] Visual RAG architecture diagram (Mermaid/D2)
+- [ ] Client-facing RAG explainer document
+- [ ] Founders Soul/MD file (business ideation and context)
+- [ ] About Us page with founders section
+- [ ] Long-term memory storage strategy document
+
+## Skill Creation
+- [ ] StudEx Social Intelligence reusable skill (skill-creator workflow)
+
+## RAG Knowledge Search Fix (Active)
+- [x] Expand ragIndex schema to support general knowledge documents (not just analyses)
+- [x] Build knowledge.ts router with: ingestDocument, searchKnowledge, askBrain procedures
+- [x] Seed knowledge base with research study data (OpenClaw, AI CRM, Africa gap) — 5 docs, 37 chunks
+- [x] Wire KnowledgeBase.tsx "Ask Brain" to real LLM-powered RAG query
+- [x] Show real search results with source citations in the UI
+- [x] Add document management (list, delete knowledge entries)
