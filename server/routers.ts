@@ -7,6 +7,7 @@ import { exportRouter } from "./routers/export";
 import { integrationsRouter } from "./routers/integrations";
 import { contentRouter } from "./routers/content";
 import { knowledgeRouter } from "./routers/knowledge";
+import { facebookRouter } from "./routers/facebook";
 
 export const appRouter = router({
   system: systemRouter,
@@ -23,6 +24,7 @@ export const appRouter = router({
   integrations: integrationsRouter,
   content: contentRouter,
   knowledge: knowledgeRouter,
+  facebook: facebookRouter,
 });
 
 export type AppRouter = typeof appRouter;

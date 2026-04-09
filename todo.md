@@ -215,3 +215,13 @@
 - [x] Wire KnowledgeBase.tsx "Ask Brain" to real LLM-powered RAG query
 - [x] Show real search results with source citations in the UI
 - [x] Add document management (list, delete knowledge entries)
+
+## Facebook Live Analytics Integration
+- [x] Audit existing Facebook token storage and integrations router
+- [x] Build fb.getPageInsights procedure (reach, impressions, engagement by day)
+- [x] Build fb.getTopPosts procedure (post-level metrics: likes, comments, shares, reach)
+- [x] Build fb.getAudienceDemographics procedure (age, gender, country breakdown)
+- [x] Build fb.getPageSummary procedure (fans, new fans, page views)
+- [x] Rebuild Analytics.tsx with real Recharts wired to live Facebook Graph API data
+- [x] Add date range selector (7d, 28d, 90d) for all metrics
+- [x] Add loading skeletons and empty/error states
