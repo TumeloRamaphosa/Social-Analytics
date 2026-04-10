@@ -21,6 +21,7 @@ import Analytics from "./pages/Analytics";
 import About from "./pages/About";
 import HiggsfieldStudio from "./pages/HiggsfieldStudio";
 import ClientPortal from "./pages/ClientPortal";
+import WhiteLabelDemo from "./pages/WhiteLabelDemo";
 
 function Router() {
   return (
@@ -42,6 +43,7 @@ function Router() {
       <Route path="/about" component={About} />
       <Route path="/higgsfield" component={HiggsfieldStudio} />
       <Route path="/clients" component={ClientPortal} />
+      <Route path="/demo" component={WhiteLabelDemo} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

@@ -239,3 +239,10 @@
 - [x] Add Client Portals to sidebar nav (Building2 icon)
 - [x] Add /clients route to App.tsx
 - [x] All 27 tests passing
+
+## Cinematic Landing Page & White-Label Client Demo
+- [x] Rebuild Home.tsx with scroll-driven animations, sticky parallax hero, kinetic typography, accordion sliders
+- [x] Install framer-motion for animations (already installed from 3D redesign)
+- [x] Build WhiteLabelDemo.tsx — cinematic scroll-driven page at /demo with 3 interactive client previews
+- [x] Add /demo route to App.tsx
+- [x] Add CLIENT DEMO link to Home.tsx navbar (cyan neon style)
