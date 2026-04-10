@@ -246,3 +246,9 @@
 - [x] Build WhiteLabelDemo.tsx — cinematic scroll-driven page at /demo with 3 interactive client previews
 - [x] Add /demo route to App.tsx
 - [x] Add CLIENT DEMO link to Home.tsx navbar (cyan neon style)
+
+## Video Hero Embed — Demo Page
+- [x] Embed autoplay muted looping cinematic background video in /demo hero section
+- [x] Add dark overlay + scanline effect over video so text remains readable
+- [x] Add play/pause toggle button with icon
+- [x] Add "Replace with your Loom recording" comment for easy swap

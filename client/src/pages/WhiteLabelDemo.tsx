@@ -391,11 +391,25 @@ function ClientDashboardPreview({ client }: { client: typeof DEMO_CLIENTS[0] }) 
 // ─── MAIN PAGE ─────────────────────────────────────────────────────────────────
 export default function WhiteLabelDemo() {
   const [activeClient, setActiveClient] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
   const client = DEMO_CLIENTS[activeClient];
   const heroRef = useRef(null);
+  // Replace VIDEO_URL with your own Loom/Vimeo/S3 .mp4 URL when ready
+  const VIDEO_URL = "https://www.w3schools.com/html/mov_bbb.mp4";
+  const videoRef = useRef<HTMLVideoElement>(null);
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 600], [0, -100]);
   const heroOpacity = useTransform(scrollY, [0, 400], [1, 0.3]);
+
+  const togglePlay = () => {
+    if (!videoRef.current) return;
+    if (isPlaying) {
+      videoRef.current.pause();
+    } else {
+      videoRef.current.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
 
   return (
     <div className="min-h-screen bg-[#050008] text-white overflow-x-hidden">
@@ -445,9 +459,36 @@ export default function WhiteLabelDemo() {
 
       {/* ─── HERO ─── */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20" ref={heroRef}>
-        <div className="absolute inset-0 grid-bg opacity-60" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_40%,rgba(255,0,180,0.1),transparent)]" />
+        {/* ── Autoplay background video ── */}
+        {/* To use your own recording: replace VIDEO_URL with your Loom export, Vimeo direct link, or S3 .mp4 URL */}
+        <video
+          ref={videoRef}
+          src={VIDEO_URL}
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ opacity: 0.18, filter: "saturate(1.4) hue-rotate(260deg) brightness(0.7)" }}
+        />
+        {/* Dark cinematic overlay so text stays readable */}
+        <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(5,0,8,0.55) 0%, rgba(5,0,8,0.72) 60%, rgba(5,0,8,0.95) 100%)" }} />
+        <div className="absolute inset-0 grid-bg opacity-40" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_40%,rgba(255,0,180,0.12),transparent)]" />
         <div className="absolute inset-0 scan-overlay" />
+        {/* Play / Pause control */}
+        <button
+          onClick={togglePlay}
+          className="absolute bottom-8 right-8 z-20 flex items-center gap-2 font-rajdhani text-xs tracking-widest uppercase px-4 py-2 rounded-full transition-all"
+          style={{ background: "rgba(255,0,204,0.12)", border: "1px solid rgba(255,0,204,0.35)", color: "#ff00cc" }}
+          aria-label={isPlaying ? "Pause background video" : "Play background video"}
+        >
+          {isPlaying ? (
+            <><span className="w-3 h-3 flex gap-0.5"><span className="w-1 h-3 bg-pink-400 rounded-sm" /><span className="w-1 h-3 bg-pink-400 rounded-sm" /></span> Pause</>  
+          ) : (
+            <><Play className="w-3 h-3" /> Play</>
+          )}
+        </button>
 
         <motion.div
           className="relative z-10 text-center px-6 max-w-5xl mx-auto"
