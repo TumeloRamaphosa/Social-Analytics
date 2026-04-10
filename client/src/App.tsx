@@ -20,6 +20,7 @@ import KnowledgeBase from "./pages/KnowledgeBase";
 import Analytics from "./pages/Analytics";
 import About from "./pages/About";
 import HiggsfieldStudio from "./pages/HiggsfieldStudio";
+import ClientPortal from "./pages/ClientPortal";
 
 function Router() {
   return (
@@ -40,6 +41,7 @@ function Router() {
       <Route path="/knowledge" component={KnowledgeBase} />
       <Route path="/about" component={About} />
       <Route path="/higgsfield" component={HiggsfieldStudio} />
+      <Route path="/clients" component={ClientPortal} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

@@ -226,3 +226,16 @@
 - [x] Add Higgsfield Studio to sidebar nav (Film icon)
 - [x] Add /higgsfield route to App.tsx
 - [x] All 27 tests passing
+
+## White-Label Client Portal Demo
+- [x] Audit existing workspaces schema — isWhiteLabel, brandColor, plan, logoUrl already present
+- [x] Build tenantsRouter with: list, get, create, updateBranding, seedDemo, delete procedures
+- [x] Register tenantsRouter in main routers.ts
+- [x] Build ClientPortal.tsx with 3 tabs: Client Workspaces, Portal Preview, Plan Comparison
+- [x] Add 3 demo tenants: Kasi Eats (Growth), Ubuntu Fintech (Command Centre), Naledi Fashion (Starter)
+- [x] Client portal preview with branded header, KPI cards, recent AI posts, and feature badges
+- [x] Create Client Workspace dialog with name, slug, plan, and brand colour picker
+- [x] Plan comparison cards with feature lists and competitor benchmarking
+- [x] Add Client Portals to sidebar nav (Building2 icon)
+- [x] Add /clients route to App.tsx
+- [x] All 27 tests passing
