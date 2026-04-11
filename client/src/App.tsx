@@ -26,6 +26,7 @@ import ResearchHub from "@/pages/ResearchHub";
 import LocalModels from "@/pages/LocalModels";
 import SafesightReport from "@/pages/SafesightReport";
 import SafesightPortal from "@/pages/SafesightPortal";
+import SystemMonitor from "@/pages/SystemMonitor";
 
 function Router() {
   return (
@@ -52,6 +53,7 @@ function Router() {
       <Route path="/local-models" component={LocalModels} />
       <Route path="/safesight" component={SafesightReport} />
       <Route path="/client/safesight" component={SafesightPortal} />
+      <Route path="/system" component={SystemMonitor} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

@@ -311,7 +311,7 @@ export default function ResearchHub() {
                 </div>
                 <div className="p-4 bg-background/50 rounded-lg">
                   <h4 className="font-semibold text-purple-400 mb-2">Platform Priority</h4>
-                  <p className="text-sm">Instagram Reels > TikTok > Facebook for your target demographic. TikTok is growing but lower conversion. Focus on IG for direct sales.</p>
+                  <p className="text-sm">Instagram Reels &gt; TikTok &gt; Facebook for your target demographic. TikTok is growing but lower conversion. Focus on IG for direct sales.</p>
                 </div>
               </CardContent>
             </Card>

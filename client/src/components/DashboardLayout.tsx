@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/sidebar";
 import { getLoginUrl } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { LayoutDashboard, LogOut, PanelLeft, Search, Globe, Clock, Brain, Zap, Sparkles, Link, Tag, Bot, Cpu, BarChart2, BookOpen, Info, Film, Wallet, CheckCircle, Send, GraduationCap, Search as SearchIcon } from "lucide-react";
+import { LayoutDashboard, LogOut, PanelLeft, Search, Globe, Clock, Brain, Zap, Sparkles, Link, Tag, Bot, Cpu, BarChart2, BookOpen, Info, Film, Wallet, CheckCircle, Send, GraduationCap, Search as SearchIcon, Activity } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
@@ -45,6 +45,7 @@ const menuItems = [
   { icon: BarChart2, label: "Live Analytics", path: "/analytics" },
   { icon: BookOpen, label: "Knowledge Base", path: "/knowledge" },
   { icon: Film, label: "Higgsfield Studio", path: "/higgsfield" },
+  { icon: Activity, label: "System Monitor", path: "/system" },
   { icon: Info, label: "About the Lab", path: "/about" },
 ];
 

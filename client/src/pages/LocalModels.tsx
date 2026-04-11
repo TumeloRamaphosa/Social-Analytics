@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -51,14 +51,58 @@ const CLOUD_SERVICES = [
 ];
 
 export default function LocalModels() {
-  const [models, setModels] = useState(LOCAL_MODELS);
+  const [models, setModels] = useState<ModelInfo[]>(LOCAL_MODELS);
   const [selectedTab, setSelectedTab] = useState("local");
+  const [loading, setLoading] = useState(false);
+  const [ollamaStatus, setOllamaStatus] = useState<{running: boolean, models: number}>({ running: true, models: 3 });
+
+  useEffect(() => {
+    checkOllamaStatus();
+  }, []);
+
+  const checkOllamaStatus = async () => {
+    try {
+      const response = await fetch('http://localhost:11434/api/tags');
+      if (response.ok) {
+        const data = await response.json();
+        setOllamaStatus({ running: true, models: data.models?.length || 0 });
+        
+        // Update installed status based on actual Ollama models
+        const installedIds = data.models?.map((m: any) => m.name) || [];
+        setModels(prev => prev.map(m => ({
+          ...m,
+          installed: m.type === 'text' && installedIds.some((id: string) => id.startsWith(m.id.split(':')[0]))
+        })));
+      }
+    } catch {
+      setOllamaStatus({ running: false, models: 0 });
+    }
+  };
 
   const handleInstall = async (modelId: string) => {
+    if (!ollamaStatus.running) {
+      alert("Ollama is not running. Start it first: ollama serve");
+      return;
+    }
+    
     setModels(prev => prev.map(m => m.id === modelId ? { ...m, installing: true } : m));
-    // Simulate installation
-    await new Promise(r => setTimeout(r, 2000));
-    setModels(prev => prev.map(m => m.id === modelId ? { ...m, installed: true, installing: false } : m));
+    setLoading(true);
+    
+    try {
+      const response = await fetch('http://localhost:11434/api/pull', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: modelId })
+      });
+      
+      if (response.ok) {
+        setModels(prev => prev.map(m => m.id === modelId ? { ...m, installed: true, installing: false } : m));
+      }
+    } catch (error) {
+      console.error("Failed to install model:", error);
+    }
+    
+    setLoading(false);
   };
 
   const handleUninstall = async (modelId: string) => {
