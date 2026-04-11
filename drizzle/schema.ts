@@ -1,4 +1,4 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, json, boolean, float, bigint } from "drizzle-orm/mysql-core";
+import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, json, boolean, float } from "drizzle-orm/mysql-core";
 
 // ─── USERS ───────────────────────────────────────────────────────────────────
 export const users = mysqlTable("users", {
@@ -295,3 +295,30 @@ export const knowledgeDocs = mysqlTable("knowledgeDocs", {
 
 export type KnowledgeDoc = typeof knowledgeDocs.$inferSelect;
 export type InsertKnowledgeDoc = typeof knowledgeDocs.$inferInsert;
+
+// ─── TOKEN USAGE TRACKING ─────────────────────────────────────────────────────
+export const tokenUsage = mysqlTable("tokenUsage", {
+  id: int("id").autoincrement().primaryKey(),
+  workspaceId: int("workspaceId").notNull(),
+  userId: int("userId").notNull(),
+  // Service: claude, openai, anthropic, higgsfield, pollinations, firecrawl, etc.
+  service: varchar("service", { length: 64 }).notNull(),
+  // Operation type
+  operation: varchar("operation", { length: 128 }).notNull(),
+  // Token counts - stored as int (JS handles BigInt)
+  inputTokens: int("inputTokens").default(0),
+  outputTokens: int("outputTokens").default(0),
+  totalTokens: int("totalTokens").default(0),
+  // Cost in USD
+  costUsd: float("costUsd").default(0),
+  // Metadata
+  model: varchar("model", { length: 128 }),
+  prompt: text("prompt"),
+  response: text("response"),
+  metadata: json("metadata"),
+  // Timestamps
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type TokenUsage = typeof tokenUsage.$inferSelect;
+export type InsertTokenUsage = typeof tokenUsage.$inferInsert;
