@@ -21,6 +21,7 @@ import Analytics from "./pages/Analytics";
 import About from "./pages/About";
 import HiggsfieldStudio from "@/pages/HiggsfieldStudio";
 import TokenGauge from "@/pages/TokenGauge";
+import ApprovalWorkflow from "@/pages/ApprovalWorkflow";
 import SafesightReport from "@/pages/SafesightReport";
 import SafesightPortal from "@/pages/SafesightPortal";
 
@@ -44,6 +45,7 @@ function Router() {
       <Route path="/about" component={About} />
       <Route path="/higgsfield" component={HiggsfieldStudio} />
       <Route path="/tokens" component={TokenGauge} />
+      <Route path="/approval" component={ApprovalWorkflow} />
       <Route path="/safesight" component={SafesightReport} />
       <Route path="/client/safesight" component={SafesightPortal} />
       <Route path="/404" component={NotFound} />
