@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/sidebar";
 import { getLoginUrl } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { LayoutDashboard, LogOut, PanelLeft, Search, Globe, Clock, Brain, Zap, Sparkles, Link, Tag, Bot, Cpu, BarChart2, BookOpen, Info, Film, Wallet, CheckCircle, Send } from "lucide-react";
+import { LayoutDashboard, LogOut, PanelLeft, Search, Globe, Clock, Brain, Zap, Sparkles, Link, Tag, Bot, Cpu, BarChart2, BookOpen, Info, Film, Wallet, CheckCircle, Send, GraduationCap, Search as SearchIcon } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
@@ -30,11 +30,13 @@ import { Button } from "./ui/button";
 const menuItems = [
   { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
   { icon: Search, label: "Analyse Website", path: "/analyze" },
+  { icon: SearchIcon, label: "Research Hub", path: "/research" },
   { icon: Clock, label: "History", path: "/history" },
   { icon: Brain, label: "RAG Search", path: "/search" },
   { icon: Sparkles, label: "Content Studio", path: "/content" },
   { icon: CheckCircle, label: "Approval Queue", path: "/approval" },
   { icon: Send, label: "Auto-Post", path: "/autopost" },
+  { icon: GraduationCap, label: "Local Models", path: "/local-models" },
   { icon: Link, label: "Integrations", path: "/integrations" },
   { icon: Bot, label: "AI Chatbots", path: "/chatbots" },
   { icon: Cpu, label: "MCP Server", path: "/mcp" },

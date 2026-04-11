@@ -22,6 +22,8 @@ import About from "./pages/About";
 import HiggsfieldStudio from "@/pages/HiggsfieldStudio";
 import TokenGauge from "@/pages/TokenGauge";
 import ApprovalWorkflow from "@/pages/ApprovalWorkflow";
+import ResearchHub from "@/pages/ResearchHub";
+import LocalModels from "@/pages/LocalModels";
 import SafesightReport from "@/pages/SafesightReport";
 import SafesightPortal from "@/pages/SafesightPortal";
 
@@ -46,6 +48,8 @@ function Router() {
       <Route path="/higgsfield" component={HiggsfieldStudio} />
       <Route path="/tokens" component={TokenGauge} />
       <Route path="/approval" component={ApprovalWorkflow} />
+      <Route path="/research" component={ResearchHub} />
+      <Route path="/local-models" component={LocalModels} />
       <Route path="/safesight" component={SafesightReport} />
       <Route path="/client/safesight" component={SafesightPortal} />
       <Route path="/404" component={NotFound} />

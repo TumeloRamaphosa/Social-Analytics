@@ -48,7 +48,7 @@ export const integrations = mysqlTable("integrations", {
   id: int("id").autoincrement().primaryKey(),
   workspaceId: int("workspaceId").notNull(),
   userId: int("userId").notNull(),
-  type: mysqlEnum("type", ["shopify", "google_ads", "facebook", "instagram", "whatsapp", "google_drive", "higgsfield"]).notNull(),
+  type: mysqlEnum("type", ["shopify", "google_ads", "facebook", "instagram", "whatsapp", "google_drive", "higgsfield", "blotato", "pollinations"]).notNull(),
   status: mysqlEnum("status", ["active", "expired", "error", "disconnected"]).default("active").notNull(),
   // Shopify fields
   shopifyDomain: varchar("shopifyDomain", { length: 256 }),
@@ -72,6 +72,13 @@ export const integrations = mysqlTable("integrations", {
   // Higgsfield AI
   higgsfieldApiKey: text("higgsfieldApiKey"),
   higgsfieldUsername: varchar("higgsfieldUsername", { length: 256 }),
+  // Blotato
+  blotatoApiKey: text("blotatoApiKey"),
+  blotatoAccountId: varchar("blotatoAccountId", { length: 128 }),
+  // Pollinations
+  pollinationsApiKey: text("pollinationsApiKey"),
+  // Firecrawl
+  firecrawlApiKey: text("firecrawlApiKey"),
   // Generic metadata
   metadata: json("metadata"),
   lastSyncedAt: timestamp("lastSyncedAt"),
