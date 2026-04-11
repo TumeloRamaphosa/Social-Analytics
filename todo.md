@@ -240,3 +240,12 @@
 - [x] Three-phase roadmap with milestones
 - [x] Revenue projection table with monthly uplift
 - [x] Save checkpoint and deploy
+
+## Safesight–LAISA Client Portal & Facebook Ads Intelligence
+- [x] Build facebookAds.ts router — real Graph API: ad accounts, spend summary, campaigns, ad performance, audience insights, AI analysis, organic replacement
+- [x] Register facebookAds router in main routers.ts
+- [x] Build SafesightPortal.tsx — white-label client portal with live FB Ads data, 5 tabs (Overview, Campaigns, Ad Performance, Audience, AI Insights)
+- [x] Add /client/safesight route to App.tsx
+- [x] Upgrade ContentStudio.tsx — Replace Ads tab with underperforming ad detection and organic content replacement
+- [x] Weekly Planner → Generate This Post flow
+- [x] All TypeScript errors resolved (0 errors)

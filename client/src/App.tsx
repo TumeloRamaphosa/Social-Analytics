@@ -21,6 +21,7 @@ import Analytics from "./pages/Analytics";
 import About from "./pages/About";
 import HiggsfieldStudio from "@/pages/HiggsfieldStudio";
 import SafesightReport from "@/pages/SafesightReport";
+import SafesightPortal from "@/pages/SafesightPortal";
 
 function Router() {
   return (
@@ -42,6 +43,7 @@ function Router() {
       <Route path="/about" component={About} />
       <Route path="/higgsfield" component={HiggsfieldStudio} />
       <Route path="/safesight" component={SafesightReport} />
+      <Route path="/client/safesight" component={SafesightPortal} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
