@@ -249,3 +249,25 @@
 - [x] Upgrade ContentStudio.tsx — Replace Ads tab with underperforming ad detection and organic content replacement
 - [x] Weekly Planner → Generate This Post flow
 - [x] All TypeScript errors resolved (0 errors)
+
+## Token Gauge (April 2026)
+- [x] Add tokenUsage table to database schema
+- [x] Build token router with log, getSummary, getRecent, getProjection
+- [x] Create TokenGauge UI page with 3 tabs (Overview, By Service, Recent)
+- [x] Add pricing reference for Claude, OpenAI, Higgsfield
+- [x] Add to sidebar navigation (/tokens route)
+
+## Approval Workflow (April 2026)
+- [x] Create ApprovalWorkflow page with 9-grid preview
+- [x] Select influencer (Naledi, Emily, Both)
+- [x] Generate batch functionality
+- [x] Approve/Reject buttons for each content
+- [x] Platform selection icons
+- [x] Add to sidebar navigation (/approval route)
+
+## Still To Do
+- [ ] Connect Blotato integration for multi-platform posting
+- [ ] Add Pollinations as free image generation backup
+- [ ] Wire Firecrawl research to UI
+- [ ] Install ComfyUI for local FLUX/SDXL models
+- [ ] Integrate Larry 1.0 TikTok marketing skill
