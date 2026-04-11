@@ -227,28 +227,16 @@
 - [x] Add /higgsfield route to App.tsx
 - [x] All 27 tests passing
 
-## White-Label Client Portal Demo
-- [x] Audit existing workspaces schema — isWhiteLabel, brandColor, plan, logoUrl already present
-- [x] Build tenantsRouter with: list, get, create, updateBranding, seedDemo, delete procedures
-- [x] Register tenantsRouter in main routers.ts
-- [x] Build ClientPortal.tsx with 3 tabs: Client Workspaces, Portal Preview, Plan Comparison
-- [x] Add 3 demo tenants: Kasi Eats (Growth), Ubuntu Fintech (Command Centre), Naledi Fashion (Starter)
-- [x] Client portal preview with branded header, KPI cards, recent AI posts, and feature badges
-- [x] Create Client Workspace dialog with name, slug, plan, and brand colour picker
-- [x] Plan comparison cards with feature lists and competitor benchmarking
-- [x] Add Client Portals to sidebar nav (Building2 icon)
-- [x] Add /clients route to App.tsx
-- [x] All 27 tests passing
-
-## Cinematic Landing Page & White-Label Client Demo
-- [x] Rebuild Home.tsx with scroll-driven animations, sticky parallax hero, kinetic typography, accordion sliders
-- [x] Install framer-motion for animations (already installed from 3D redesign)
-- [x] Build WhiteLabelDemo.tsx — cinematic scroll-driven page at /demo with 3 interactive client previews
-- [x] Add /demo route to App.tsx
-- [x] Add CLIENT DEMO link to Home.tsx navbar (cyan neon style)
-
-## Video Hero Embed — Demo Page
-- [x] Embed autoplay muted looping cinematic background video in /demo hero section
-- [x] Add dark overlay + scanline effect over video so text remains readable
-- [x] Add play/pause toggle button with icon
-- [x] Add "Replace with your Loom recording" comment for easy swap
+## Safesight–LAISA Digital Intelligence Report Website
+- [x] Build SafesightReport.tsx — full interactive intelligence report website
+- [x] Install chart.js + react-chartjs-2 for interactive charts
+- [x] Add /safesight route to App.tsx
+- [x] All sections: Hero, Metrics, Competitors, Platform, Security, Roadmap, Projection, Why Now, CTA
+- [x] Interactive Chart.js charts: maturity bar, competitor FB/IG bars, revenue line + uplift bar
+- [x] Competitor table with threat levels
+- [x] Three-point security architecture (Mac Mini + on-site + Google Cloud)
+- [x] Nine Naledi AI agents breakdown
+- [x] ML Vision Cameras section
+- [x] Three-phase roadmap with milestones
+- [x] Revenue projection table with monthly uplift
+- [x] Save checkpoint and deploy

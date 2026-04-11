@@ -8,7 +8,6 @@ import { integrationsRouter } from "./routers/integrations";
 import { contentRouter } from "./routers/content";
 import { knowledgeRouter } from "./routers/knowledge";
 import { higgsfieldRouter } from "./routers/higgsfield";
-import { tenantsRouter } from "./routers/tenants";
 
 export const appRouter = router({
   system: systemRouter,
@@ -26,7 +25,6 @@ export const appRouter = router({
   content: contentRouter,
   knowledge: knowledgeRouter,
   higgsfield: higgsfieldRouter,
-  tenants: tenantsRouter,
 });
 
 export type AppRouter = typeof appRouter;

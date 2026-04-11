@@ -334,12 +334,6 @@ export default function Home() {
               {item}
             </a>
           ))}
-          <Link href="/demo">
-            <span className="font-rajdhani text-sm tracking-wider uppercase cursor-pointer"
-              style={{ color: "#00ffff", textShadow: "0 0 10px #00ffff88" }}>
-              CLIENT DEMO
-            </span>
-          </Link>
         </div>
         <Link href="/dashboard">
           <button className="neon-btn font-orbitron text-xs font-bold text-white px-5 py-2 rounded-lg">
