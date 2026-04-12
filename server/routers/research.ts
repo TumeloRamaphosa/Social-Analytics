@@ -1,8 +1,15 @@
 import { z } from "zod";
 import { protectedProcedure, router } from "../_core/trpc";
-import { FirecrawlApp } from "@firecrawl/firecrawl";
+import Firecrawl from "@mendable/firecrawl-js";
 
-const firecrawlApp = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY || "" });
+let firecrawlApp: Firecrawl | null = null;
+
+function getFirecrawl() {
+  if (!firecrawlApp && process.env.FIRECRAWL_API_KEY) {
+    firecrawlApp = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
+  }
+  return firecrawlApp;
+}
 
 export interface ResearchResult {
   title: string;
@@ -35,7 +42,12 @@ export const researchRouter = router({
       }
 
       try {
-        const response = await firecrawlApp.search(input.query, { limit: input.limit });
+        const app = getFirecrawl();
+        if (!app) {
+          console.warn("[Research] No FIRECRAWL_API_KEY, returning mock data");
+          return getMockSearchResults(input.query);
+        }
+        const response = await app.search(input.query, { limit: input.limit });
         
         return response.data?.map((item: any) => ({
           title: item.title || "Untitled",
@@ -63,7 +75,12 @@ export const researchRouter = router({
       }
 
       try {
-        const response = await firecrawlApp.scrapeUrl(input.url, { formats: input.formats });
+        const app = getFirecrawl();
+        if (!app) {
+          return { content: "Configure FIRECRAWL_API_KEY to enable scraping" };
+        }
+
+        const response = await app.scrapeUrl(input.url, { formats: input.formats as any });
         
         return {
           content: response.markdown || response.html || "",
@@ -89,7 +106,11 @@ export const researchRouter = router({
       }
 
       try {
-        const response = await firecrawlApp.extract({
+        const app = getFirecrawl();
+        if (!app) {
+          return getMockCompetitorData(input.url);
+        }
+        const response = await app.extract({
           urls: [input.url],
           prompt: input.prompt,
         });
@@ -108,7 +129,11 @@ export const researchRouter = router({
     }
 
     try {
-      const response = await firecrawlApp.getCrawlStatus();
+      const app = getFirecrawl();
+      if (!app) {
+        throw new Error("No Firecrawl");
+      }
+      const response = await app.getCrawlStatus();
       return {
         credits: response.credits || 0,
         total: 500000,

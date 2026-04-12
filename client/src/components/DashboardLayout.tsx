@@ -50,6 +50,7 @@ const menuItems = [
   { icon: Lightbulb, label: "Marketing Skills", path: "/marketing-skills" },
   { icon: Target, label: "Analytics Report", path: "/analytics-report" },
   { icon: DollarSign, label: "Influencers", path: "/influencers" },
+  { icon: BookOpen, label: "Skills & Agents", path: "/skills" },
   { icon: Eye, label: "Competitor Watch", path: "/research" },
   { icon: TrendingUp, label: "Trend Scanner", path: "/research" },
   { icon: Settings, label: "Admin Panel", path: "/admin" },

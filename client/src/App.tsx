@@ -32,6 +32,7 @@ import MarketingSkills from "@/pages/MarketingSkills";
 import AdminPanel from "@/pages/AdminPanel";
 import AnalyticsReport from "@/pages/AnalyticsReport";
 import InfluencerTracking from "@/pages/InfluencerTracking";
+import SkillsAndAgents from "@/pages/SkillsAndAgents";
 
 function Router() {
   return (
@@ -64,6 +65,7 @@ function Router() {
       <Route path="/admin" component={AdminPanel} />
       <Route path="/analytics-report" component={AnalyticsReport} />
       <Route path="/influencers" component={InfluencerTracking} />
+      <Route path="/skills" component={SkillsAndAgents} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
