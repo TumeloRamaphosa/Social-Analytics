@@ -13,6 +13,8 @@ import { tokenRouter } from "./routers/token";
 import { blotatoRouter } from "./routers/blotato";
 import { pollinationsRouter } from "./routers/pollinations";
 import { googleDriveRouter } from "./routers/googleDrive";
+import { researchRouter } from "./routers/research";
+import { pdfRouter } from "./routers/pdf";
 
 export const appRouter = router({
   system: systemRouter,
@@ -35,6 +37,8 @@ export const appRouter = router({
   blotato: blotatoRouter,
   pollinations: pollinationsRouter,
   googleDrive: googleDriveRouter,
+  research: researchRouter,
+  pdf: pdfRouter,
 });
 
 export type AppRouter = typeof appRouter;

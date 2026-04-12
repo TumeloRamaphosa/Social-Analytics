@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { trpc } from "@/lib/trpc";
 import { 
   Search, 
   Globe, 
@@ -18,7 +19,7 @@ import {
   Target,
   Lightbulb
 } from "lucide-react";
-import { useServerAction } from "@/hooks/useServerAction";
+import { toast } from "sonner";
 
 interface ResearchResult {
   title: string;
@@ -71,23 +72,40 @@ export default function ResearchHub() {
     { topic: "Direct to Consumer", volume: "High", sentiment: "positive", opportunity: "Subscription boxes and online store" },
   ];
 
+  const { data: creditsData } = trpc.research.getCredits.useQuery();
+  
+  const searchMutation = trpc.research.search.useMutation({
+    onSuccess: (data) => {
+      setResults(data);
+      setLoading(false);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+      setLoading(false);
+    },
+  });
+
+  const scrapeMutation = trpc.research.scrape.useMutation({
+    onSuccess: (data) => {
+      toast.success("URL scraped successfully");
+      setLoading(false);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+      setLoading(false);
+    },
+  });
+
   const handleSearch = async () => {
     if (!query.trim()) return;
     setLoading(true);
-    
-    // Simulate search delay
-    await new Promise(r => setTimeout(r, 1500));
-    setResults(mockResults);
-    setLoading(false);
+    searchMutation.mutate({ query, limit: 10 });
   };
 
   const handleAnalyzeUrl = async () => {
     if (!url.trim()) return;
     setLoading(true);
-    
-    // Simulate URL analysis
-    await new Promise(r => setTimeout(r, 2000));
-    setLoading(false);
+    scrapeMutation.mutate({ url, formats: ["markdown"] });
   };
 
   return (
@@ -115,8 +133,8 @@ export default function ResearchHub() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-muted-foreground">Searches Left</p>
-                  <p className="text-2xl font-bold">450K</p>
-                  <p className="text-xs text-muted-foreground">of 500K credits</p>
+                  <p className="text-2xl font-bold">{creditsData?.credits?.toLocaleString() || "0"}</p>
+                  <p className="text-xs text-muted-foreground">of {creditsData?.total?.toLocaleString() || "500K"}</p>
                 </div>
                 <Globe className="w-8 h-8 text-cyan-500" />
               </div>
