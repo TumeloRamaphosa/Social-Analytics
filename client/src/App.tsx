@@ -27,6 +27,9 @@ import LocalModels from "@/pages/LocalModels";
 import SafesightReport from "@/pages/SafesightReport";
 import SafesightPortal from "@/pages/SafesightPortal";
 import SystemMonitor from "@/pages/SystemMonitor";
+import AgentSimulation from "@/pages/AgentSimulation";
+import MarketingSkills from "@/pages/MarketingSkills";
+import AdminPanel from "@/pages/AdminPanel";
 
 function Router() {
   return (
@@ -54,6 +57,9 @@ function Router() {
       <Route path="/safesight" component={SafesightReport} />
       <Route path="/client/safesight" component={SafesightPortal} />
       <Route path="/system" component={SystemMonitor} />
+      <Route path="/agents" component={AgentSimulation} />
+      <Route path="/marketing-skills" component={MarketingSkills} />
+      <Route path="/admin" component={AdminPanel} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
