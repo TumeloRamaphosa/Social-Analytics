@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/sidebar";
 import { getLoginUrl } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { LayoutDashboard, LogOut, PanelLeft, Search, Globe, Clock, Brain, Zap, Sparkles, Link, Tag, Bot, Cpu, BarChart2, BookOpen, Info, Film, Wallet, CheckCircle, Send, GraduationCap, Search as SearchIcon, Activity, Users, Lightbulb, Settings } from "lucide-react";
+import { LayoutDashboard, LogOut, PanelLeft, Search, Globe, Clock, Brain, Zap, Sparkles, Link, Tag, Bot, Cpu, BarChart2, BookOpen, Info, Film, Wallet, CheckCircle, Send, GraduationCap, Search as SearchIcon, Activity, Users, Lightbulb, Settings, Target, DollarSign, TrendingUp, Eye, AlertCircle } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
@@ -48,6 +48,10 @@ const menuItems = [
   { icon: Activity, label: "System Monitor", path: "/system" },
   { icon: Users, label: "Agent Simulation", path: "/agents" },
   { icon: Lightbulb, label: "Marketing Skills", path: "/marketing-skills" },
+  { icon: Target, label: "Analytics Report", path: "/analytics-report" },
+  { icon: DollarSign, label: "Influencers", path: "/influencers" },
+  { icon: Eye, label: "Competitor Watch", path: "/research" },
+  { icon: TrendingUp, label: "Trend Scanner", path: "/research" },
   { icon: Settings, label: "Admin Panel", path: "/admin" },
   { icon: Info, label: "About the Lab", path: "/about" },
 ];

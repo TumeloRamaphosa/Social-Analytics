@@ -30,6 +30,8 @@ import SystemMonitor from "@/pages/SystemMonitor";
 import AgentSimulation from "@/pages/AgentSimulation";
 import MarketingSkills from "@/pages/MarketingSkills";
 import AdminPanel from "@/pages/AdminPanel";
+import AnalyticsReport from "@/pages/AnalyticsReport";
+import InfluencerTracking from "@/pages/InfluencerTracking";
 
 function Router() {
   return (
@@ -60,6 +62,8 @@ function Router() {
       <Route path="/agents" component={AgentSimulation} />
       <Route path="/marketing-skills" component={MarketingSkills} />
       <Route path="/admin" component={AdminPanel} />
+      <Route path="/analytics-report" component={AnalyticsReport} />
+      <Route path="/influencers" component={InfluencerTracking} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

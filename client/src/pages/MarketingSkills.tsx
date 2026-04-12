@@ -20,7 +20,11 @@ import {
   Brain,
   ArrowRight,
   Copy,
-  CheckCircle2
+  CheckCircle2,
+  TrendingUp,
+  Eye,
+  Users,
+  AlertCircle
 } from "lucide-react";
 
 interface MarketingSkill {
@@ -130,6 +134,66 @@ const MARKETING_SKILLS: MarketingSkill[] = [
       "Optimize checkout flow for [store]",
       "Fix UX issues on [website]"
     ]
+  },
+  {
+    id: "competitor-watch",
+    name: "Competitor Watch",
+    description: "Track and analyze rival brands - their pricing, products, marketing, and strategy.",
+    icon: <Eye className="w-5 h-5" />,
+    prompts: [
+      "Who are [industry] competitors?",
+      "What are [competitor] pricing?",
+      "Analyze [competitor] social media strategy",
+      "Track [competitor] new products"
+    ]
+  },
+  {
+    id: "price-intelligence",
+    name: "Price Intelligence",
+    description: "Monitor pricing across market, find price opportunities, optimize your pricing.",
+    icon: <DollarSign className="w-5 h-5" />,
+    prompts: [
+      "What is the market average for [product]?",
+      "Find pricing gaps in [industry]",
+      "Optimize pricing for [product]",
+      "Analyze competitor price changes"
+    ]
+  },
+  {
+    id: "trend-scanner",
+    name: "Trend Scanner",
+    description: "Spot emerging trends, consumer interests, and market opportunities.",
+    icon: <TrendingUp className="w-5 h-5" />,
+    prompts: [
+      "What trends in [industry]?",
+      "What is trending in [market]?",
+      "Consumer sentiment on [topic]",
+      "Spot emerging opportunities"
+    ]
+  },
+  {
+    id: "market-gap",
+    name: "Market Gap Finder",
+    description: "Find underserved segments, gaps in the market, white space opportunities.",
+    icon: <AlertCircle className="w-5 h-5" />,
+    prompts: [
+      "Find gaps in [industry]",
+      "What is underserved in [market]?",
+      "White space opportunities",
+      "Underserved customer segments"
+    ]
+  },
+  {
+    id: "influencer-outreach",
+    name: "Influencer Outreach",
+    description: "Find, vet, and approach influencers for brand partnerships.",
+    icon: <Users className="w-5 h-5" />,
+    prompts: [
+      "Find influencers in [niche]",
+      "What influencers for [brand]?",
+      "Calculate influencer ROI",
+      "Approach template for [influencer]"
+    ]
   }
 ];
 
@@ -163,10 +227,10 @@ export default function MarketingSkills() {
             <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 via-cyan-400 to-green-400 bg-clip-text text-transparent">
               Marketing Skills
             </h1>
-            <p className="text-muted-foreground">AI-powered marketing guidance with 18 specialized skills</p>
+            <p className="text-muted-foreground">AI-powered marketing guidance with specialized skills</p>
           </div>
           <Badge variant="outline" className="bg-blue-500/10 text-blue-400">
-            18 Skills Available
+            {MARKETING_SKILLS.length} Skills Available
           </Badge>
         </div>
 
