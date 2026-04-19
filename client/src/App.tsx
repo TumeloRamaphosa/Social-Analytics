@@ -25,6 +25,7 @@ import ApprovalWorkflow from "@/pages/ApprovalWorkflow";
 import ResearchHub from "@/pages/ResearchHub";
 import LocalModels from "@/pages/LocalModels";
 import SafesightReport from "@/pages/SafesightReport";
+import SocialIntelligenceReport from "@/pages/SocialIntelligenceReport";
 import SafesightPortal from "@/pages/SafesightPortal";
 import SystemMonitor from "@/pages/SystemMonitor";
 import AgentSimulation from "@/pages/AgentSimulation";
@@ -58,6 +59,7 @@ function Router() {
       <Route path="/research" component={ResearchHub} />
       <Route path="/local-models" component={LocalModels} />
       <Route path="/safesight" component={SafesightReport} />
+      <Route path="/social-intelligence" component={SocialIntelligenceReport} />
       <Route path="/client/safesight" component={SafesightPortal} />
       <Route path="/system" component={SystemMonitor} />
       <Route path="/agents" component={AgentSimulation} />
