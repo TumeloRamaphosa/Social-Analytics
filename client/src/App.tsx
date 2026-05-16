@@ -22,6 +22,9 @@ import About from "./pages/About";
 import HiggsfieldStudio from "@/pages/HiggsfieldStudio";
 import SafesightReport from "@/pages/SafesightReport";
 import SafesightPortal from "@/pages/SafesightPortal";
+import ComposioIntegrations from "@/pages/ComposioIntegrations";
+import MultiPublisher from "@/pages/MultiPublisher";
+import SocialIntelligenceReport from "@/pages/SocialIntelligenceReport";
 
 function Router() {
   return (
@@ -44,6 +47,10 @@ function Router() {
       <Route path="/higgsfield" component={HiggsfieldStudio} />
       <Route path="/safesight" component={SafesightReport} />
       <Route path="/client/safesight" component={SafesightPortal} />
+      <Route path="/composio" component={ComposioIntegrations} />
+      <Route path="/publisher" component={MultiPublisher} />
+      <Route path="/social-report" component={SocialIntelligenceReport} />
+      <Route path="/calendar" component={MultiPublisher} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

@@ -21,25 +21,34 @@ import {
 } from "@/components/ui/sidebar";
 import { getLoginUrl } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { LayoutDashboard, LogOut, PanelLeft, Search, Globe, Clock, Brain, Zap, Sparkles, Link, Tag, Bot, Cpu, BarChart2, BookOpen, Info, Film } from "lucide-react";
+import { LayoutDashboard, LogOut, PanelLeft, Search, Globe, Clock, Brain, Zap, Sparkles, Link, Tag, Bot, Cpu, BarChart2, BookOpen, Info, Film, Share2, Plug, TrendingUp, Users, FileText, Layers } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
 import { Button } from "./ui/button";
 
 const menuItems = [
-  { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
-  { icon: Search, label: "Analyse Website", path: "/analyze" },
-  { icon: Clock, label: "History", path: "/history" },
-  { icon: Brain, label: "RAG Search", path: "/search" },
+  // ── Command Centre ──────────────────────────────────────
+  { icon: LayoutDashboard, label: "Command Centre", path: "/dashboard" },
+  { icon: BarChart2, label: "Social Analytics", path: "/analytics" },
+  { icon: TrendingUp, label: "Social Report", path: "/social-report" },
+  // ── Content & Publishing ─────────────────────────────────
   { icon: Sparkles, label: "Content Studio", path: "/content" },
+  { icon: Film, label: "Higgsfield Studio", path: "/higgsfield" },
+  { icon: Share2, label: "Multi-Publisher", path: "/publisher" },
+  { icon: FileText, label: "Content Calendar", path: "/calendar" },
+  // ── Intelligence ─────────────────────────────────────────
+  { icon: Search, label: "Analyse Website", path: "/analyze" },
+  { icon: Brain, label: "Knowledge Brain", path: "/knowledge" },
+  { icon: Cpu, label: "RAG Search", path: "/search" },
+  { icon: Clock, label: "History", path: "/history" },
+  // ── Connections & Agents ─────────────────────────────────
+  { icon: Plug, label: "Composio Connect", path: "/composio" },
   { icon: Link, label: "Integrations", path: "/integrations" },
   { icon: Bot, label: "AI Chatbots", path: "/chatbots" },
-  { icon: Cpu, label: "MCP Server", path: "/mcp" },
-  { icon: Tag, label: "Pricing & SaaS", path: "/pricing" },
-  { icon: BarChart2, label: "Live Analytics", path: "/analytics" },
-  { icon: BookOpen, label: "Knowledge Base", path: "/knowledge" },
-  { icon: Film, label: "Higgsfield Studio", path: "/higgsfield" },
+  { icon: Layers, label: "MCP Server", path: "/mcp" },
+  // ── Client Portals ───────────────────────────────────────
+  { icon: Users, label: "Safesight Portal", path: "/client/safesight" },
   { icon: Info, label: "About the Lab", path: "/about" },
 ];
 

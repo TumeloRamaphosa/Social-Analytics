@@ -249,3 +249,34 @@
 - [x] Upgrade ContentStudio.tsx — Replace Ads tab with underperforming ad detection and organic content replacement
 - [x] Weekly Planner → Generate This Post flow
 - [x] All TypeScript errors resolved (0 errors)
+
+## Platform Upgrade — Autonomous Social Command Centre
+
+### Connections & Publishing
+- [ ] Reconnect WhatsApp via Composio (guide user through reconnect flow in UI)
+- [ ] Wire Facebook posting into Content Studio via Composio FACEBOOK_CREATE_POST
+- [ ] Wire Instagram posting into Content Studio via Composio INSTAGRAM_POST_IG_USER_MEDIA + PUBLISH
+- [ ] Add multi-platform publish button (Facebook + Instagram + Discord + Gmail in one click)
+- [ ] Remove /pricing page and nav link
+
+### Advanced Dashboard
+- [ ] Rebuild dashboard with live multi-platform analytics (FB + IG data via Composio)
+- [ ] Add AI strategy advisor panel — reads data, advises what to post and when
+- [ ] Add content calendar with AI-suggested posting schedule
+- [ ] Add competitor tracking panel
+
+### Content Creation Pipeline
+- [ ] Integrate social-agents repo patterns (data → analysis → strategy → content loop)
+- [ ] Integrate Content Creation Agents repo patterns
+- [ ] Add Remotion video generation (programmatic video from templates)
+- [ ] Add LTX Studio / Stable Diffusion image generation pipeline
+- [ ] Add content performance prediction before posting
+
+### Multi-Platform Publisher
+- [ ] Post to Facebook Pages via Composio
+- [ ] Post to Instagram Feed + Reels via Composio
+- [ ] Post to LinkedIn via Composio
+- [ ] Post to Discord channels via Composio
+- [ ] Send via Gmail campaigns via Composio
+- [ ] Post to WhatsApp (once reconnected)
+- [ ] Scheduling queue with optimal time suggestions

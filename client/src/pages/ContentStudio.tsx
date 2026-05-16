@@ -13,7 +13,8 @@ import { toast } from "sonner";
 import {
   Sparkles, Send, Calendar, ImageIcon, Loader2, Facebook,
   Instagram, MessageCircle, Globe, Trash2, Eye, TrendingDown,
-  DollarSign, Brain, Zap, AlertTriangle, BarChart3, RefreshCw
+  DollarSign, Brain, Zap, AlertTriangle, BarChart3, RefreshCw,
+  Mail, Hash, CheckSquare, Square, Linkedin, Twitter
 } from "lucide-react";
 import { Streamdown } from "streamdown";
 
@@ -48,6 +49,8 @@ export default function ContentStudio() {
   const [generatedPost, setGeneratedPost] = useState<any>(null);
   const [weekStart, setWeekStart] = useState(new Date().toISOString().split("T")[0]);
   const [weeklyPlan, setWeeklyPlan] = useState<any[]>([]);
+  const [publishPlatforms, setPublishPlatforms] = useState<string[]>(["facebook"]);
+  const [publishResults, setPublishResults] = useState<Record<string, { success: boolean; error?: string }> | null>(null);
 
   // Ads intelligence state
   const [selectedAdAccount, setSelectedAdAccount] = useState("");
@@ -88,12 +91,22 @@ export default function ContentStudio() {
   });
 
   const publishMutation = trpc.content.publishPost.useMutation({
-    onSuccess: () => {
-      toast.success("Post published to Facebook!");
+    onSuccess: (data: any) => {
+      setPublishResults(data.results || {});
+      const successes = Object.entries(data.results || {}).filter(([, r]: any) => r.success).map(([p]) => p);
+      const failures = Object.entries(data.results || {}).filter(([, r]: any) => !r.success).map(([p]) => p);
+      if (successes.length) toast.success(`Published to: ${successes.join(", ")}`);
+      if (failures.length) toast.error(`Failed on: ${failures.join(", ")}`);
       refetchPosts();
     },
     onError: (err) => toast.error(err.message),
   });
+
+  const togglePublishPlatform = (p: string) => {
+    setPublishPlatforms(prev =>
+      prev.includes(p) ? prev.filter(x => x !== p) : [...prev, p]
+    );
+  };
 
   const deleteMutation = trpc.content.deletePost.useMutation({
     onSuccess: () => { toast.success("Post deleted"); refetchPosts(); },
@@ -288,28 +301,71 @@ export default function ContentStudio() {
                           <p className="text-gray-300 text-xs">{generatedPost.imagePrompt}</p>
                         </div>
                       )}
-                      <div className="flex gap-2">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={handleGenerateImage}
-                          disabled={generateImageMutation.isPending || !generatedPost.id}
-                          className="flex-1 border-gray-600 text-gray-300 hover:bg-gray-700"
-                        >
-                          {generateImageMutation.isPending ?
-                            <Loader2 className="w-4 h-4 mr-1 animate-spin" /> :
-                            <ImageIcon className="w-4 h-4 mr-1" />}
-                          Generate Image
-                        </Button>
-                        <Button
-                          size="sm"
-                          onClick={() => generatedPost.id && publishMutation.mutate({ postId: generatedPost.id })}
-                          disabled={publishMutation.isPending || !generatedPost.id}
-                          className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
-                        >
-                          {publishMutation.isPending ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <Send className="w-4 h-4 mr-1" />}
-                          Publish to Facebook
-                        </Button>
+                      {/* Multi-platform publish */}
+                      <div className="space-y-3">
+                        <p className="text-gray-400 text-xs font-medium uppercase tracking-wide">Publish To</p>
+                        <div className="grid grid-cols-2 gap-2">
+                          {[
+                            { id: "facebook", label: "Facebook", icon: <Facebook className="w-3 h-3" />, color: "text-blue-400" },
+                            { id: "instagram", label: "Instagram", icon: <Instagram className="w-3 h-3" />, color: "text-pink-400" },
+                            { id: "discord", label: "Discord", icon: <Hash className="w-3 h-3" />, color: "text-indigo-400" },
+                            { id: "gmail", label: "Gmail", icon: <Mail className="w-3 h-3" />, color: "text-red-400" },
+                          ].map(p => (
+                            <button
+                              key={p.id}
+                              onClick={() => togglePublishPlatform(p.id)}
+                              className={`flex items-center gap-2 px-3 py-2 rounded-lg border text-xs font-medium transition-all ${
+                                publishPlatforms.includes(p.id)
+                                  ? "bg-gray-700 border-gray-500 text-white"
+                                  : "bg-gray-800/50 border-gray-700 text-gray-500 hover:border-gray-600"
+                              }`}
+                            >
+                              {publishPlatforms.includes(p.id)
+                                ? <CheckSquare className="w-3 h-3 text-green-400" />
+                                : <Square className="w-3 h-3" />}
+                              <span className={p.color}>{p.icon}</span>
+                              {p.label}
+                            </button>
+                          ))}
+                        </div>
+                        <div className="flex gap-2">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={handleGenerateImage}
+                            disabled={generateImageMutation.isPending || !generatedPost.id}
+                            className="flex-1 border-gray-600 text-gray-300 hover:bg-gray-700"
+                          >
+                            {generateImageMutation.isPending ?
+                              <Loader2 className="w-4 h-4 mr-1 animate-spin" /> :
+                              <ImageIcon className="w-4 h-4 mr-1" />}
+                            Image
+                          </Button>
+                          <Button
+                            size="sm"
+                            onClick={() => generatedPost.id && publishMutation.mutate({
+                              postId: generatedPost.id,
+                              platforms: publishPlatforms as any,
+                            })}
+                            disabled={publishMutation.isPending || !generatedPost.id || publishPlatforms.length === 0}
+                            className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+                          >
+                            {publishMutation.isPending ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <Send className="w-4 h-4 mr-1" />}
+                            Publish ({publishPlatforms.length})
+                          </Button>
+                        </div>
+                        {publishResults && (
+                          <div className="space-y-1">
+                            {Object.entries(publishResults).map(([platform, result]: [string, any]) => (
+                              <div key={platform} className={`flex items-center gap-2 text-xs px-2 py-1 rounded ${
+                                result.success ? "bg-green-500/10 text-green-400" : "bg-red-500/10 text-red-400"
+                              }`}>
+                                <span className="capitalize font-medium">{platform}:</span>
+                                <span>{result.success ? "✓ Published" : `✗ ${result.error}`}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     </div>
                   )}

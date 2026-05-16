@@ -350,7 +350,11 @@ Return as JSON array of 7 objects with fields: day, contentType, platform, title
 
   // Publish post to Facebook/Instagram via Meta API
   publishPost: protectedProcedure
-    .input(z.object({ postId: z.number() }))
+    .input(z.object({
+      postId: z.number(),
+      platforms: z.array(z.enum(["facebook", "instagram", "whatsapp", "discord", "gmail"])).default(["facebook"]),
+      entityId: z.string().optional(),
+    }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
       if (!db) throw new Error("Database unavailable");
@@ -360,47 +364,81 @@ Return as JSON array of 7 objects with fields: day, contentType, platform, title
         .limit(1);
       if (!post.length) throw new Error("Post not found");
 
-      const metaIntegration = await db.select().from(integrations)
-        .where(and(eq(integrations.userId, ctx.user.id), eq(integrations.type, "facebook")))
-        .limit(1);
-
-      if (!metaIntegration.length || !metaIntegration[0].metaAccessToken || !metaIntegration[0].metaPageId) {
-        throw new Error("Facebook not connected. Please connect your Facebook page first.");
-      }
-
-      const { metaAccessToken, metaPageId } = metaIntegration[0];
       const { caption, hashtags, imageUrl } = post[0];
       const message = `${caption || ""}\n\n${hashtags || ""}`.trim();
 
-      let publishRes: any;
-      if (imageUrl) {
-        // Post with image
-        const body = new URLSearchParams({ url: imageUrl, caption: message, access_token: metaAccessToken });
-        const res = await fetch(`https://graph.facebook.com/${metaPageId}/photos`, {
+      const COMPOSIO_API_KEY = process.env.COMPOSIO_API_KEY || "ak_EBdmBPesM68NJ3DmT6D9";
+      const COMPOSIO_BASE = "https://backend.composio.dev/api/v1";
+      const entityId = input.entityId || "default";
+
+      const results: Record<string, { success: boolean; id?: string; error?: string }> = {};
+
+      async function executeComposioTool(toolName: string, params: Record<string, unknown>) {
+        const res = await fetch(`${COMPOSIO_BASE}/actions/${toolName}/execute`, {
           method: "POST",
-          body,
+          headers: {
+            "x-api-key": COMPOSIO_API_KEY,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ entityId, input: params }),
         });
-        publishRes = await res.json();
-      } else {
-        // Text-only post
-        const body = new URLSearchParams({ message, access_token: metaAccessToken });
-        const res = await fetch(`https://graph.facebook.com/${metaPageId}/feed`, {
-          method: "POST",
-          body,
-        });
-        publishRes = await res.json();
+        const data = await res.json() as { successfull?: boolean; data?: Record<string, unknown>; error?: string };
+        return data;
       }
 
-      if (publishRes.error) {
-        await db.update(contentPosts).set({ status: "failed" }).where(eq(contentPosts.id, input.postId));
-        throw new Error(`Facebook API error: ${publishRes.error.message}`);
+      for (const platform of input.platforms) {
+        try {
+          if (platform === "facebook") {
+            const tool = imageUrl ? "FACEBOOK_CREATE_PHOTO_POST" : "FACEBOOK_CREATE_POST";
+            const params = imageUrl
+              ? { page_id: "me", url: imageUrl, caption: message }
+              : { page_id: "me", message };
+            const res = await executeComposioTool(tool, params);
+            results.facebook = res.successfull
+              ? { success: true, id: (res.data as any)?.id }
+              : { success: false, error: res.error || "Facebook publish failed" };
+          } else if (platform === "instagram") {
+            // Instagram: create container then publish
+            const containerParams: Record<string, unknown> = { caption: message };
+            if (imageUrl) containerParams.image_url = imageUrl;
+            else containerParams.media_type = "IMAGE";
+            const containerRes = await executeComposioTool("INSTAGRAM_POST_IG_USER_MEDIA", containerParams);
+            if (containerRes.successfull && (containerRes.data as any)?.id) {
+              const publishRes = await executeComposioTool("INSTAGRAM_POST_IG_USER_MEDIA_PUBLISH", {
+                creation_id: (containerRes.data as any).id,
+              });
+              results.instagram = publishRes.successfull
+                ? { success: true, id: (publishRes.data as any)?.id }
+                : { success: false, error: publishRes.error || "Instagram publish failed" };
+            } else {
+              results.instagram = { success: false, error: containerRes.error || "Instagram container creation failed" };
+            }
+          } else if (platform === "discord") {
+            const res = await executeComposioTool("DISCORD_SEND_MESSAGE", { content: message });
+            results.discord = res.successfull
+              ? { success: true }
+              : { success: false, error: res.error || "Discord post failed" };
+          } else if (platform === "gmail") {
+            const res = await executeComposioTool("GMAIL_SEND_EMAIL", {
+              to: ctx.user.email || "",
+              subject: caption?.substring(0, 60) || "New Post",
+              body: message,
+            });
+            results.gmail = res.successfull
+              ? { success: true }
+              : { success: false, error: res.error || "Gmail send failed" };
+          }
+        } catch (e: any) {
+          results[platform] = { success: false, error: e.message };
+        }
       }
 
+      const anySuccess = Object.values(results).some(r => r.success);
       await db.update(contentPosts)
-        .set({ status: "published", publishedAt: new Date() })
+        .set({ status: anySuccess ? "published" : "failed", publishedAt: anySuccess ? new Date() : undefined })
         .where(eq(contentPosts.id, input.postId));
 
-      return { success: true, facebookPostId: publishRes.id };
+      return { success: anySuccess, results };
     }),
 
   // Get brand voices
