@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/sidebar";
 import { getLoginUrl } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { LayoutDashboard, LogOut, PanelLeft, Search, Globe, Clock, Brain, Zap, Sparkles, Link, Tag, Bot, Cpu, BarChart2, BookOpen, Info, Film, Share2, Plug, TrendingUp, Users, FileText, Layers } from "lucide-react";
+import { LayoutDashboard, LogOut, PanelLeft, Search, Globe, Clock, Brain, Zap, Sparkles, Link, Tag, Bot, Cpu, BarChart2, BookOpen, Info, Film, Share2, Plug, TrendingUp, Users, FileText, Layers, Calendar, DollarSign, Wand2 } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
@@ -34,9 +34,10 @@ const menuItems = [
   { icon: TrendingUp, label: "Social Report", path: "/social-report" },
   // ── Content & Publishing ─────────────────────────────────
   { icon: Sparkles, label: "Content Studio", path: "/content" },
-  { icon: Film, label: "Higgsfield Studio", path: "/higgsfield" },
+  { icon: Wand2, label: "Statics Content Gen", path: "/higgsfield" },
   { icon: Share2, label: "Multi-Publisher", path: "/publisher" },
-  { icon: FileText, label: "Content Calendar", path: "/calendar" },
+  { icon: Calendar, label: "Content Calendar", path: "/calendar" },
+  // ── SaaS Plans ───────────────────────────────────────────
   // ── Intelligence ─────────────────────────────────────────
   { icon: Search, label: "Analyse Website", path: "/analyze" },
   { icon: Brain, label: "Knowledge Brain", path: "/knowledge" },
@@ -49,6 +50,7 @@ const menuItems = [
   { icon: Layers, label: "MCP Server", path: "/mcp" },
   // ── Client Portals ───────────────────────────────────────
   { icon: Users, label: "Safesight Portal", path: "/client/safesight" },
+  { icon: DollarSign, label: "SaaS Plans", path: "/plans" },
   { icon: Info, label: "About the Lab", path: "/about" },
 ];
 
@@ -190,8 +192,8 @@ function DashboardLayoutContent({
               </button>
               {!isCollapsed ? (
                 <div className="flex items-center gap-2 min-w-0">
-                  <span className="font-semibold tracking-tight truncate">
-                    Navigation
+                  <span className="font-semibold tracking-tight truncate" style={{fontFamily:'Space Grotesk,sans-serif'}}>
+                    DatAgentic
                   </span>
                 </div>
               ) : null}

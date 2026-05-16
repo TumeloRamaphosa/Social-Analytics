@@ -280,3 +280,29 @@
 - [ ] Send via Gmail campaigns via Composio
 - [ ] Post to WhatsApp (once reconnected)
 - [ ] Scheduling queue with optimal time suggestions
+
+## DatAgentic Rebrand & Major Platform Upgrade (Phase 4)
+- [ ] Rebrand to DatAgentic by StudEx DevOps — update app title, logo text, nav, home page
+- [ ] Rename Higgsfield Studio to Statics Content Generator
+- [ ] Remove /pricing route, replace with SaaS plans page (/plans)
+- [ ] Build 4 SaaS product tiers with per-account pricing
+- [ ] Build Content Calendar — drag-and-drop, Kanban, table view (/calendar)
+- [ ] Build Kanban-style command centre dashboard
+- [ ] Add all Composio connections — Google Ads, ElevenLabs, Slack, Discord, WhatsApp, Shopify, Facebook, Instagram
+- [ ] Wire Content Creation Agents (Media Analyst, Content Writer, SEO Optimizer) into Content Studio
+- [ ] Add social-agents platform-specific posting rules (Instagram, Facebook, LinkedIn, TikTok, Twitter)
+- [ ] Build AI Strategy Advisor — reads all data, generates strategy with recommendations
+- [ ] Fix all TypeScript errors and broken routes
+- [ ] Maintain dark neon command centre design throughout all pages
+- [ ] Push to GitHub
+
+## Session 5 Completions (May 16 2026)
+- [x] Fix ContentCalendar.tsx TypeScript errors (FileText import + Platform type mismatch)
+- [x] Build ContentCalendar.tsx — Kanban, Calendar, Table views with drag-and-drop
+- [x] Update App.tsx — /calendar now routes to ContentCalendar (not MultiPublisher)
+- [x] Build SaaSPlans.tsx — 4 tiers: Starter (R999), Pro (R2499), Agency (R7999), Enterprise (custom)
+- [x] Add /plans route to App.tsx
+- [x] Rename HiggsfieldStudio.tsx UI text to "Statics Content Generator"
+- [x] Update DashboardLayout.tsx — Higgsfield nav item renamed to Statics Content Gen
+- [x] Add SaaS Plans to DashboardLayout sidebar nav
+- [x] TypeScript: 0 errors confirmed

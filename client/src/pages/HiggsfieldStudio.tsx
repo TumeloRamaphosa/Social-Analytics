@@ -104,7 +104,7 @@ function ConnectPanel({ onConnected }: { onConnected: () => void }) {
 
   const connectMutation = trpc.higgsfield.connect.useMutation({
     onSuccess: () => {
-      toast.success("Higgsfield account connected!");
+      toast.success("Statics Content Generator connected!");
       onConnected();
     },
     onError: (err) => toast.error(err.message),
@@ -121,9 +121,9 @@ function ConnectPanel({ onConnected }: { onConnected: () => void }) {
           style={{ background: "linear-gradient(135deg, #ff00cc20, #9900ff20)", border: "1px solid #ff00cc40" }}>
           <Film className="w-8 h-8" style={{ color: NEON_PINK }} />
         </div>
-        <h2 className="font-orbitron text-white text-xl font-black mb-2">Connect Higgsfield AI</h2>
+        <h2 className="font-orbitron text-white text-xl font-black mb-2">Connect Statics Content Generator</h2>
         <p className="text-gray-400 font-rajdhani text-sm">
-          Higgsfield is an AI video and image generation platform. Connect your account to generate
+          Statics Content Generator is an AI video and image generation module. Connect your Higgsfield account to generate
           cinematic videos, animate images, and create AI visuals directly from this dashboard.
         </p>
       </div>
@@ -154,7 +154,7 @@ function ConnectPanel({ onConnected }: { onConnected: () => void }) {
       {/* API Key input */}
       <div className="space-y-2">
         <label className="text-gray-400 font-rajdhani text-sm font-bold flex items-center gap-2">
-          <Key className="w-3 h-3" /> Higgsfield API Key
+          <Key className="w-3 h-3" /> Higgsfield API Key (for Statics Content Gen)
         </label>
         <div className="relative">
           <Input
@@ -186,7 +186,7 @@ function ConnectPanel({ onConnected }: { onConnected: () => void }) {
         {connectMutation.isPending ? (
           <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Connecting...</>
         ) : (
-          <><Link2 className="w-4 h-4 mr-2" /> Connect Higgsfield Account</>
+          <><Link2 className="w-4 h-4 mr-2" /> Connect Statics Content Gen Account</>
         )}
       </Button>
     </motion.div>
@@ -221,7 +221,7 @@ export default function HiggsfieldStudio() {
 
   // ─── Mutations ────────────────────────────────────────────────────────────
   const disconnectMutation = trpc.higgsfield.disconnect.useMutation({
-    onSuccess: () => { toast.success("Higgsfield disconnected"); refetchStatus(); },
+    onSuccess: () => { toast.success("Statics Content Generator disconnected"); refetchStatus(); },
     onError: (err) => toast.error(err.message),
   });
 
@@ -303,10 +303,10 @@ export default function HiggsfieldStudio() {
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
             <h1 className="font-orbitron text-2xl font-black text-white">
-              Higgsfield <span style={{ color: NEON_PINK }}>AI Studio</span>
+              Statics <span style={{ color: NEON_PINK }}>Content Generator</span>
             </h1>
             <p className="text-gray-400 font-rajdhani mt-1">
-              Generate cinematic AI videos and images — powered by Higgsfield
+              Generate cinematic AI videos and images — powered by DatAgentic
             </p>
           </div>
           {isConnected && (

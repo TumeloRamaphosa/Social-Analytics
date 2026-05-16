@@ -25,6 +25,8 @@ import SafesightPortal from "@/pages/SafesightPortal";
 import ComposioIntegrations from "@/pages/ComposioIntegrations";
 import MultiPublisher from "@/pages/MultiPublisher";
 import SocialIntelligenceReport from "@/pages/SocialIntelligenceReport";
+import ContentCalendar from "@/pages/ContentCalendar";
+import SaaSPlans from "@/pages/SaaSPlans";
 
 function Router() {
   return (
@@ -50,7 +52,8 @@ function Router() {
       <Route path="/composio" component={ComposioIntegrations} />
       <Route path="/publisher" component={MultiPublisher} />
       <Route path="/social-report" component={SocialIntelligenceReport} />
-      <Route path="/calendar" component={MultiPublisher} />
+      <Route path="/calendar" component={ContentCalendar} />
+      <Route path="/plans" component={SaaSPlans} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
