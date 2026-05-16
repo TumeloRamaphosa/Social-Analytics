@@ -306,3 +306,55 @@
 - [x] Update DashboardLayout.tsx — Higgsfield nav item renamed to Statics Content Gen
 - [x] Add SaaS Plans to DashboardLayout sidebar nav
 - [x] TypeScript: 0 errors confirmed
+
+## Phase 5 — Design Redesign & Advanced Features (May 16 2026)
+- [ ] Apply new light design system: YAML/neon-pink/cream-white (UI/UX Pro Max SaaS pattern)
+- [ ] Update index.css CSS variables for light theme (cream white bg, neon pink primary, soft purple accent)
+- [ ] Update index.html fonts: Inter + Space Grotesk from Google Fonts
+- [ ] Update DashboardLayout sidebar to match new light design
+- [ ] Remove Pricing page from nav and routes
+- [ ] Remove SaaS Plans from client-facing nav
+- [ ] Build three-agent content pipeline backend: runAgentPipeline procedure (Media Analyst → Content Writer → SEO Optimizer)
+- [ ] Build advanced Command Centre dashboard: multi-platform KPI grid + AI Strategy Advisor panel
+- [ ] Wire three-agent pipeline into Content Studio UI with one-click trigger and live step progress
+- [ ] Build 3 client portal variants (Safesight, StudEx Meat, Generic) without pricing
+- [ ] Push all changes to GitHub (TumeloRamaphosa/Social-Analytics)
+
+## Phase 6 — Full Platform Redesign & Two-Sided Client Portal (May 16 2026)
+- [ ] Apply sophisticated light cream/neon-pink/purple design system globally
+- [ ] Redesign index.css with new CSS variables, Space Grotesk + Inter fonts
+- [ ] Redesign DashboardLayout with new theme
+- [ ] Remove Pricing from management nav
+- [ ] Build public Client Onboarding landing page (no auth required)
+- [ ] Build asset submission form (website URL, social links, follower counts, goals)
+- [ ] Build AI analysis backend procedure (LLM analyses submitted assets)
+- [ ] Store client submissions + AI results in DB
+- [ ] Send proposal email via AgentMail after analysis
+- [ ] Build invite-only client dashboard (locked until owner grants access)
+- [ ] Client dashboard shows their strategy, analytics, content plan
+- [ ] Management view of all client submissions + ability to approve/invite
+- [ ] AgentMail mailbox wired into sidebar
+
+## Session 6 Completions (May 16, 2026)
+- [x] Apply new light design system (cream/neon-pink/purple) to DashboardLayout
+- [x] Redesign DashboardLayout sidebar with grouped nav sections
+- [x] Build Client Onboarding Portal (public landing page + asset submission form)
+- [x] Build Client Portal (invite-only dashboard with AI strategy display)
+- [x] Build Client Submissions management page (review, analyse, approve leads)
+- [x] Build advanced Command Centre dashboard with multi-platform KPIs and AI advisor
+- [x] Remove Pricing section from Home.tsx and nav
+- [x] Build AgentMail mailbox page (inbox, thread reader, compose, campaigns)
+- [x] Add clientLeads and clientPortalSessions database tables
+- [x] Build clientPortal.ts router (submitLead, analyseLead, approveLead, listLeads, accessPortal)
+- [x] Register agentmail and clientPortal routers in main routers.ts
+
+## Remaining Work (Next Agent)
+- [ ] Wire three-agent content pipeline into Content Studio (Media Analyst → Content Writer → SEO Optimizer)
+- [ ] Build Google Ads dashboard with live campaign data via Composio
+- [ ] Add PIN gate to client portals
+- [ ] Apply light design system to all remaining pages (ContentCalendar, ContentStudio, etc.)
+- [ ] Build 3 branded client portal variants (Safesight, StudEx Meat, Generic)
+- [ ] Wire Facebook + Instagram live data into Command Centre KPIs
+- [ ] Add multi-platform publish button (one-click to FB + IG + Discord)
+- [ ] Test full client onboarding flow end-to-end
+- [ ] Add AgentMail inbox to sidebar nav

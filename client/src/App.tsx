@@ -15,7 +15,6 @@ import Integrations from "./pages/Integrations";
 import SaaS from "./pages/SaaS";
 import Chatbots from "./pages/Chatbots";
 import MCPServer from "./pages/MCPServer";
-import Pricing from "./pages/Pricing";
 import KnowledgeBase from "./pages/KnowledgeBase";
 import Analytics from "./pages/Analytics";
 import About from "./pages/About";
@@ -26,12 +25,20 @@ import ComposioIntegrations from "@/pages/ComposioIntegrations";
 import MultiPublisher from "@/pages/MultiPublisher";
 import SocialIntelligenceReport from "@/pages/SocialIntelligenceReport";
 import ContentCalendar from "@/pages/ContentCalendar";
-import SaaSPlans from "@/pages/SaaSPlans";
+import AgentMailbox from "@/pages/AgentMailbox";
+import ClientOnboarding from "@/pages/ClientOnboarding";
+import ClientPortal from "@/pages/ClientPortal";
+import ClientSubmissions from "@/pages/ClientSubmissions";
 
 function Router() {
   return (
     <Switch>
+      {/* Public */}
       <Route path="/" component={Home} />
+      <Route path="/get-started" component={ClientOnboarding} />
+      <Route path="/portal" component={ClientPortal} />
+
+      {/* Management */}
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/analyze" component={Analyze} />
       <Route path="/report/:id" component={Report} />
@@ -39,7 +46,6 @@ function Router() {
       <Route path="/search" component={Search} />
       <Route path="/content" component={ContentStudio} />
       <Route path="/integrations" component={Integrations} />
-      <Route path="/pricing" component={Pricing} />
       <Route path="/saas" component={SaaS} />
       <Route path="/chatbots" component={Chatbots} />
       <Route path="/mcp" component={MCPServer} />
@@ -53,7 +59,9 @@ function Router() {
       <Route path="/publisher" component={MultiPublisher} />
       <Route path="/social-report" component={SocialIntelligenceReport} />
       <Route path="/calendar" component={ContentCalendar} />
-      <Route path="/plans" component={SaaSPlans} />
+      <Route path="/mailbox" component={AgentMailbox} />
+      <Route path="/clients" component={ClientSubmissions} />
+
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
@@ -63,7 +71,7 @@ function Router() {
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider defaultTheme="dark">
+      <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <Toaster />
           <Router />

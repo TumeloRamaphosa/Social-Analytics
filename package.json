@@ -52,6 +52,7 @@
     "@trpc/react-query": "^11.6.0",
     "@trpc/server": "^11.6.0",
     "@types/three": "^0.183.1",
+    "agentmail": "^0.5.2",
     "ai": "^6.0.184",
     "axios": "^1.12.2",
     "chart.js": "^4.5.1",

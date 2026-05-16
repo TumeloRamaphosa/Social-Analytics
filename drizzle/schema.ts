@@ -295,3 +295,54 @@ export const knowledgeDocs = mysqlTable("knowledgeDocs", {
 
 export type KnowledgeDoc = typeof knowledgeDocs.$inferSelect;
 export type InsertKnowledgeDoc = typeof knowledgeDocs.$inferInsert;
+
+// ─── CLIENT LEADS (Onboarding Portal Submissions) ────────────────────────────
+export const clientLeads = mysqlTable("clientLeads", {
+  id: int("id").autoincrement().primaryKey(),
+  firstName: varchar("firstName", { length: 128 }).notNull(),
+  lastName: varchar("lastName", { length: 128 }).notNull(),
+  email: varchar("email", { length: 320 }).notNull(),
+  phone: varchar("phone", { length: 32 }),
+  businessName: varchar("businessName", { length: 256 }).notNull(),
+  industry: varchar("industry", { length: 128 }),
+  websiteUrl: varchar("websiteUrl", { length: 2048 }),
+  facebookUrl: varchar("facebookUrl", { length: 2048 }),
+  instagramUrl: varchar("instagramUrl", { length: 2048 }),
+  tiktokUrl: varchar("tiktokUrl", { length: 2048 }),
+  linkedinUrl: varchar("linkedinUrl", { length: 2048 }),
+  youtubeUrl: varchar("youtubeUrl", { length: 2048 }),
+  facebookFollowers: int("facebookFollowers"),
+  instagramFollowers: int("instagramFollowers"),
+  tiktokFollowers: int("tiktokFollowers"),
+  monthlyBudget: varchar("monthlyBudget", { length: 64 }),
+  primaryGoal: varchar("primaryGoal", { length: 256 }),
+  currentChallenges: text("currentChallenges"),
+  targetAudience: text("targetAudience"),
+  aiAnalysis: text("aiAnalysis"),
+  aiStrategy: text("aiStrategy"),
+  proposedPricing: varchar("proposedPricing", { length: 128 }),
+  analysisScore: int("analysisScore"),
+  status: mysqlEnum("status", ["submitted", "analysing", "proposal_sent", "approved", "rejected", "active"]).default("submitted").notNull(),
+  proposalSentAt: timestamp("proposalSentAt"),
+  approvedAt: timestamp("approvedAt"),
+  inviteToken: varchar("inviteToken", { length: 128 }),
+  inviteExpiresAt: timestamp("inviteExpiresAt"),
+  linkedUserId: int("linkedUserId"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type ClientLead = typeof clientLeads.$inferSelect;
+export type InsertClientLead = typeof clientLeads.$inferInsert;
+
+// ─── CLIENT PORTAL SESSIONS ───────────────────────────────────────────────────
+export const clientPortalSessions = mysqlTable("clientPortalSessions", {
+  id: int("id").autoincrement().primaryKey(),
+  leadId: int("leadId").notNull(),
+  token: varchar("token", { length: 128 }).notNull().unique(),
+  email: varchar("email", { length: 320 }).notNull(),
+  expiresAt: timestamp("expiresAt").notNull(),
+  lastAccessedAt: timestamp("lastAccessedAt"),
+  isActive: boolean("isActive").default(true),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+export type ClientPortalSession = typeof clientPortalSessions.$inferSelect;

@@ -36,6 +36,13 @@
       "when": 1775764123629,
       "tag": "0004_acoustic_northstar",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1778953730884,
+      "tag": "0005_jittery_patch",
+      "breakpoints": true
     }
   ]
 }

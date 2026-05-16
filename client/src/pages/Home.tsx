@@ -177,38 +177,8 @@ const stats = [
   { value: 12, suffix: "", label: "MCP Tools Available", icon: Cpu },
   { value: 6, suffix: "+", label: "Platform Integrations", icon: Target },
 ];
-
-const plans = [
-  {
-    name: "STARTER",
-    price: "R999",
-    period: "/mo",
-    desc: "Perfect for solo brands",
-    features: ["1 Social Account", "AI Content Generation", "Basic Analytics", "WhatsApp Bot"],
-    color: "#ff00cc",
-    popular: false,
-  },
-  {
-    name: "PRO",
-    price: "R2,499",
-    period: "/mo",
-    desc: "For growing businesses",
-    features: ["5 Social Accounts", "Full Analytics Suite", "AI Chatbots (WA + IG)", "Shopify Integration", "MCP Server Access"],
-    color: "#00ffff",
-    popular: true,
-  },
-  {
-    name: "AGENCY",
-    price: "R7,999",
-    period: "/mo",
-    desc: "White-label for agencies",
-    features: ["Unlimited Clients", "White-label Dashboard", "Google Ads Integration", "RAG Knowledge Base", "Priority Support", "Custom MCP Tools"],
-    color: "#ff66ff",
-    popular: false,
-  },
-];
-
 export default function Home() {
+
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 600], [0, -120]);
   const bullScale = useTransform(scrollY, [0, 400], [1, 1.08]);
@@ -328,8 +298,8 @@ export default function Home() {
           </div>
         </div>
         <div className="hidden md:flex items-center gap-8">
-          {["Features", "Analytics", "Pricing", "Agentic Lab"].map((item) => (
-            <a key={item} href={`#${item.toLowerCase().replace(" ", "-")}`}
+          {["Features", "Analytics", "Client Portal", "Agentic Lab"].map((item) => (
+            <a key={item} href={item === "Client Portal" ? "/get-started" : `#${item.toLowerCase().replace(" ", "-")}`}
               className="font-rajdhani text-sm text-gray-400 hover:text-pink-400 transition-colors tracking-wider uppercase">
               {item}
             </a>
@@ -610,66 +580,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── PRICING ─── */}
-      <section id="pricing" className="relative py-24">
-        <NeonGrid />
-        <div className="relative z-10 container mx-auto px-6">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <div className="font-rajdhani text-pink-400 text-sm tracking-widest uppercase mb-3">Pricing</div>
-            <h2 className="font-orbitron text-4xl lg:text-5xl font-black text-white mb-4">
-              CHOOSE YOUR <GlitchText>TIER</GlitchText>
-            </h2>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {plans.map((plan, i) => (
-              <motion.div
-                key={plan.name}
-                className={`relative rounded-2xl p-6 card-hover ${plan.popular ? "neon-border-cyan scale-105" : "neon-border"}`}
-                style={{ background: "rgba(5,0,8,0.9)" }}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.15 }}
-                viewport={{ once: true }}
-              >
-                {plan.popular && (
-                  <div className="popular-badge absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full font-orbitron text-xs font-bold text-black">
-                    MOST POPULAR
-                  </div>
-                )}
-                <div className="font-orbitron text-sm font-bold mb-1" style={{ color: plan.color }}>{plan.name}</div>
-                <div className="font-rajdhani text-gray-400 text-sm mb-4">{plan.desc}</div>
-                <div className="flex items-baseline gap-1 mb-6">
-                  <span className="font-orbitron text-4xl font-black text-white">{plan.price}</span>
-                  <span className="font-rajdhani text-gray-500">{plan.period}</span>
-                </div>
-                <ul className="space-y-2 mb-6">
-                  {plan.features.map((f) => (
-                    <li key={f} className="flex items-center gap-2 font-rajdhani text-sm text-gray-300">
-                      <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: plan.color }} />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-                <button
-                  className="w-full py-3 rounded-xl font-orbitron text-xs font-bold transition-all"
-                  style={plan.popular
-                    ? { background: `linear-gradient(135deg, ${plan.color}, #0088ff)`, color: "#000", boxShadow: `0 0 20px ${plan.color}66` }
-                    : { border: `1px solid ${plan.color}66`, color: plan.color, background: "transparent" }
-                  }
-                >
-                  GET STARTED
-                </button>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ─── CTA FOOTER ─── */}
       <section className="relative py-24 overflow-hidden">
