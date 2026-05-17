@@ -358,3 +358,8 @@
 - [ ] Add multi-platform publish button (one-click to FB + IG + Discord)
 - [ ] Test full client onboarding flow end-to-end
 - [ ] Add AgentMail inbox to sidebar nav
+
+## Session 6 — Design System Applied to All Pages (May 17, 2026)
+- [x] Apply light cream/neon-pink theme to ContentCalendar.tsx
+- [x] Apply light cream/neon-pink theme to ContentStudio.tsx
+- [x] Apply light cream/neon-pink theme to AgentMailbox.tsx

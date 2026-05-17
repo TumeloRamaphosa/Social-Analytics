@@ -26,19 +26,19 @@ const platformIcons: Record<string, React.ReactNode> = {
 };
 
 const statusColors: Record<string, string> = {
-  draft: "bg-gray-500/20 text-gray-300 border-gray-500/30",
-  scheduled: "bg-yellow-500/20 text-yellow-300 border-yellow-500/30",
-  published: "bg-green-500/20 text-green-300 border-green-500/30",
-  failed: "bg-red-500/20 text-red-300 border-red-500/30",
+  draft: "bg-muted text-muted-foreground border border-border",
+  scheduled: "bg-yellow-50 text-yellow-700 border border-yellow-200",
+  published: "bg-green-50 text-green-700 border border-green-200",
+  failed: "bg-red-50 text-red-700 border border-red-200",
 };
 
 const contentTypeColors: Record<string, string> = {
-  product: "bg-blue-500/20 text-blue-300",
-  educational: "bg-green-500/20 text-green-300",
-  promotional: "bg-red-500/20 text-red-300",
-  ugc: "bg-purple-500/20 text-purple-300",
-  behind_scenes: "bg-orange-500/20 text-orange-300",
-  testimonial: "bg-yellow-500/20 text-yellow-300",
+  product: "bg-blue-50 text-blue-700",
+  educational: "bg-green-50 text-green-700",
+  promotional: "bg-red-50 text-red-700",
+  ugc: "bg-purple-50 text-purple-700",
+  behind_scenes: "bg-orange-50 text-orange-700",
+  testimonial: "bg-yellow-50 text-yellow-700",
 };
 
 export default function ContentStudio() {
@@ -175,16 +175,16 @@ export default function ContentStudio() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-white flex items-center gap-3">
+            <h1 className="text-3xl font-bold text-foreground flex items-center gap-3">
               <Sparkles className="w-8 h-8 text-purple-400" />
               Content Studio
             </h1>
-            <p className="text-gray-400 mt-1">AI-powered content generation, scheduling, publishing, and ad replacement</p>
+            <p className="text-muted-foreground mt-1">AI-powered content generation, scheduling, publishing, and ad replacement</p>
           </div>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="bg-gray-800/50 border border-gray-700">
+          <TabsList className="bg-muted/40 border border-border">
             <TabsTrigger value="generate" className="data-[state=active]:bg-purple-600">
               <Sparkles className="w-3 h-3 mr-1" />Generate
             </TabsTrigger>
@@ -203,33 +203,33 @@ export default function ContentStudio() {
           <TabsContent value="generate" className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Input Panel */}
-              <Card className="bg-gray-900/50 border-gray-700">
+              <Card className="bg-white/50 border-border">
                 <CardHeader>
-                  <CardTitle className="text-white flex items-center gap-2">
+                  <CardTitle className="text-foreground flex items-center gap-2">
                     <Sparkles className="w-5 h-5 text-purple-400" />
                     AI Content Generator
                   </CardTitle>
-                  <CardDescription className="text-gray-400">Describe your content and let AI craft the perfect post</CardDescription>
+                  <CardDescription className="text-muted-foreground">Describe your content and let AI craft the perfect post</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
-                    <Label className="text-gray-300">Content Brief</Label>
+                    <Label className="text-foreground/80">Content Brief</Label>
                     <Textarea
                       value={brief}
                       onChange={(e) => setBrief(e.target.value)}
                       placeholder="e.g. Promote LASIK eye surgery, emphasise pain-free procedure and same-day results, target professionals aged 25–45 in Pretoria..."
-                      className="bg-gray-800 border-gray-600 text-white min-h-[120px] resize-none"
+                      className="bg-muted border-border/60 text-foreground min-h-[120px] resize-none"
                     />
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label className="text-gray-300">Platform</Label>
+                      <Label className="text-foreground/80">Platform</Label>
                       <Select value={platform} onValueChange={(v: any) => setPlatform(v)}>
-                        <SelectTrigger className="bg-gray-800 border-gray-600 text-white">
+                        <SelectTrigger className="bg-muted border-border/60 text-foreground">
                           <SelectValue />
                         </SelectTrigger>
-                        <SelectContent className="bg-gray-800 border-gray-700">
+                        <SelectContent className="bg-muted border-border">
                           <SelectItem value="instagram">Instagram</SelectItem>
                           <SelectItem value="facebook">Facebook</SelectItem>
                           <SelectItem value="whatsapp">WhatsApp</SelectItem>
@@ -239,12 +239,12 @@ export default function ContentStudio() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label className="text-gray-300">Content Type</Label>
+                      <Label className="text-foreground/80">Content Type</Label>
                       <Select value={contentType} onValueChange={(v: any) => setContentType(v)}>
-                        <SelectTrigger className="bg-gray-800 border-gray-600 text-white">
+                        <SelectTrigger className="bg-muted border-border/60 text-foreground">
                           <SelectValue />
                         </SelectTrigger>
-                        <SelectContent className="bg-gray-800 border-gray-700">
+                        <SelectContent className="bg-muted border-border">
                           <SelectItem value="product">Product Showcase</SelectItem>
                           <SelectItem value="educational">Educational</SelectItem>
                           <SelectItem value="promotional">Promotional</SelectItem>
@@ -259,7 +259,7 @@ export default function ContentStudio() {
                   <Button
                     onClick={handleGenerate}
                     disabled={generateMutation.isPending}
-                    className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold"
+                    className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-foreground font-semibold"
                   >
                     {generateMutation.isPending ? (
                       <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Generating...</>
@@ -271,16 +271,16 @@ export default function ContentStudio() {
               </Card>
 
               {/* Output Panel */}
-              <Card className="bg-gray-900/50 border-gray-700">
+              <Card className="bg-white/50 border-border">
                 <CardHeader>
-                  <CardTitle className="text-white flex items-center gap-2">
-                    {generatedPost ? platformIcons[platform] : <Eye className="w-5 h-5 text-gray-400" />}
+                  <CardTitle className="text-foreground flex items-center gap-2">
+                    {generatedPost ? platformIcons[platform] : <Eye className="w-5 h-5 text-muted-foreground" />}
                     {generatedPost ? "Generated Post" : "Preview"}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   {!generatedPost ? (
-                    <div className="flex flex-col items-center justify-center h-64 text-gray-500">
+                    <div className="flex flex-col items-center justify-center h-64 text-muted-foreground">
                       <Sparkles className="w-12 h-12 mb-3 opacity-30" />
                       <p>Your generated post will appear here</p>
                     </div>
@@ -289,21 +289,21 @@ export default function ContentStudio() {
                       {generatedPost.imageUrl && (
                         <img src={generatedPost.imageUrl} alt="Generated" className="w-full rounded-lg object-cover max-h-48" />
                       )}
-                      <div className="bg-gray-800 rounded-lg p-4">
-                        <p className="text-white text-sm whitespace-pre-wrap">{generatedPost.caption}</p>
+                      <div className="bg-muted rounded-lg p-4">
+                        <p className="text-foreground text-sm whitespace-pre-wrap">{generatedPost.caption}</p>
                         {generatedPost.hashtags && (
                           <p className="text-blue-400 text-sm mt-2">{generatedPost.hashtags}</p>
                         )}
                       </div>
                       {generatedPost.imagePrompt && (
-                        <div className="bg-gray-800/50 rounded-lg p-3">
-                          <p className="text-gray-400 text-xs font-medium mb-1">Image Prompt:</p>
-                          <p className="text-gray-300 text-xs">{generatedPost.imagePrompt}</p>
+                        <div className="bg-muted/40 rounded-lg p-3">
+                          <p className="text-muted-foreground text-xs font-medium mb-1">Image Prompt:</p>
+                          <p className="text-foreground/80 text-xs">{generatedPost.imagePrompt}</p>
                         </div>
                       )}
                       {/* Multi-platform publish */}
                       <div className="space-y-3">
-                        <p className="text-gray-400 text-xs font-medium uppercase tracking-wide">Publish To</p>
+                        <p className="text-muted-foreground text-xs font-medium uppercase tracking-wide">Publish To</p>
                         <div className="grid grid-cols-2 gap-2">
                           {[
                             { id: "facebook", label: "Facebook", icon: <Facebook className="w-3 h-3" />, color: "text-blue-400" },
@@ -316,8 +316,8 @@ export default function ContentStudio() {
                               onClick={() => togglePublishPlatform(p.id)}
                               className={`flex items-center gap-2 px-3 py-2 rounded-lg border text-xs font-medium transition-all ${
                                 publishPlatforms.includes(p.id)
-                                  ? "bg-gray-700 border-gray-500 text-white"
-                                  : "bg-gray-800/50 border-gray-700 text-gray-500 hover:border-gray-600"
+                                  ? "bg-muted/60 border-border/40 text-foreground"
+                                  : "bg-muted/40 border-border text-muted-foreground hover:border-border/60"
                               }`}
                             >
                               {publishPlatforms.includes(p.id)
@@ -334,7 +334,7 @@ export default function ContentStudio() {
                             variant="outline"
                             onClick={handleGenerateImage}
                             disabled={generateImageMutation.isPending || !generatedPost.id}
-                            className="flex-1 border-gray-600 text-gray-300 hover:bg-gray-700"
+                            className="flex-1 border-border/60 text-foreground/80 hover:bg-muted/60"
                           >
                             {generateImageMutation.isPending ?
                               <Loader2 className="w-4 h-4 mr-1 animate-spin" /> :
@@ -348,7 +348,7 @@ export default function ContentStudio() {
                               platforms: publishPlatforms as any,
                             })}
                             disabled={publishMutation.isPending || !generatedPost.id || publishPlatforms.length === 0}
-                            className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+                            className="flex-1 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-foreground"
                           >
                             {publishMutation.isPending ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <Send className="w-4 h-4 mr-1" />}
                             Publish ({publishPlatforms.length})
@@ -358,7 +358,7 @@ export default function ContentStudio() {
                           <div className="space-y-1">
                             {Object.entries(publishResults).map(([platform, result]: [string, any]) => (
                               <div key={platform} className={`flex items-center gap-2 text-xs px-2 py-1 rounded ${
-                                result.success ? "bg-green-500/10 text-green-400" : "bg-red-500/10 text-red-400"
+                                result.success ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700"
                               }`}>
                                 <span className="capitalize font-medium">{platform}:</span>
                                 <span>{result.success ? "✓ Published" : `✗ ${result.error}`}</span>
@@ -377,15 +377,15 @@ export default function ContentStudio() {
           {/* ── Replace Ads Tab ───────────────────────────────────────────── */}
           <TabsContent value="ads_replace" className="space-y-6">
             {/* Header */}
-            <Card className="bg-red-950/30 border-red-900/50">
+            <Card className="bg-red-50 border-red-200">
               <CardContent className="p-5">
                 <div className="flex items-start gap-4">
-                  <div className="p-3 rounded-xl bg-red-500/20">
+                  <div className="p-3 rounded-xl bg-red-100">
                     <TrendingDown className="w-6 h-6 text-red-400" />
                   </div>
                   <div className="flex-1">
-                    <h2 className="text-lg font-bold text-white mb-1">Replace Underperforming Ads with Free Organic Content</h2>
-                    <p className="text-gray-400 text-sm">
+                    <h2 className="text-lg font-bold text-foreground mb-1">Replace Underperforming Ads with Free Organic Content</h2>
+                    <p className="text-muted-foreground text-sm">
                       This tab identifies ads that are wasting your budget (CTR below 1%, high CPM) and generates
                       organic posts that achieve the same goal — at zero ad spend. Connect your Facebook Ads account
                       in Integrations to get started.
@@ -399,31 +399,31 @@ export default function ContentStudio() {
             <div className="flex items-center gap-4">
               {accountsData?.accounts && accountsData.accounts.length > 1 && (
                 <Select value={selectedAdAccount} onValueChange={setSelectedAdAccount}>
-                  <SelectTrigger className="w-48 bg-gray-800 border-gray-700 text-white text-sm">
+                  <SelectTrigger className="w-48 bg-muted border-border text-foreground text-sm">
                     <SelectValue placeholder="Select ad account" />
                   </SelectTrigger>
-                  <SelectContent className="bg-gray-800 border-gray-700">
+                  <SelectContent className="bg-muted border-border">
                     {accountsData.accounts.map((a: any) => (
-                      <SelectItem key={a.id} value={a.id} className="text-white text-sm">{a.name}</SelectItem>
+                      <SelectItem key={a.id} value={a.id} className="text-foreground text-sm">{a.name}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               )}
               <Select value={adDatePreset} onValueChange={(v: any) => setAdDatePreset(v)}>
-                <SelectTrigger className="w-36 bg-gray-800 border-gray-700 text-white text-sm">
+                <SelectTrigger className="w-36 bg-muted border-border text-foreground text-sm">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-gray-800 border-gray-700">
-                  <SelectItem value="last_7d" className="text-white text-sm">Last 7 days</SelectItem>
-                  <SelectItem value="last_30d" className="text-white text-sm">Last 30 days</SelectItem>
-                  <SelectItem value="last_90d" className="text-white text-sm">Last 90 days</SelectItem>
+                <SelectContent className="bg-muted border-border">
+                  <SelectItem value="last_7d" className="text-foreground text-sm">Last 7 days</SelectItem>
+                  <SelectItem value="last_30d" className="text-foreground text-sm">Last 30 days</SelectItem>
+                  <SelectItem value="last_90d" className="text-foreground text-sm">Last 90 days</SelectItem>
                 </SelectContent>
               </Select>
               <Button
                 size="sm"
                 variant="outline"
                 onClick={() => refetchAds()}
-                className="border-gray-700 text-gray-300"
+                className="border-border text-foreground/80"
               >
                 <RefreshCw className="w-3 h-3 mr-1" /> Refresh
               </Button>
@@ -432,10 +432,10 @@ export default function ContentStudio() {
             {/* No connection */}
             {!selectedAdAccount && (
               <div className="text-center py-16">
-                <BarChart3 className="w-12 h-12 mx-auto mb-4 text-gray-600" />
-                <p className="text-gray-400 mb-4">Connect your Facebook Ads account to see underperforming ads</p>
+                <BarChart3 className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+                <p className="text-muted-foreground mb-4">Connect your Facebook Ads account to see underperforming ads</p>
                 <a href="/integrations">
-                  <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+                  <Button className="bg-blue-600 hover:bg-blue-700 text-foreground">
                     <Facebook className="w-4 h-4 mr-2" /> Connect Facebook Ads
                   </Button>
                 </a>
@@ -444,7 +444,7 @@ export default function ContentStudio() {
 
             {/* Loading */}
             {loadingAds && selectedAdAccount && (
-              <div className="text-center py-12 text-gray-400">
+              <div className="text-center py-12 text-muted-foreground">
                 <Loader2 className="w-8 h-8 animate-spin mx-auto mb-3 text-purple-400" />
                 Loading ad performance data...
               </div>
@@ -458,12 +458,12 @@ export default function ContentStudio() {
                   {underperformingAds.length} Underperforming Ads — Wasting Your Budget
                 </h3>
                 {underperformingAds.map((ad: any) => (
-                  <Card key={ad.ad_id} className="bg-gray-900/50 border-red-900/30">
+                  <Card key={ad.ad_id} className="bg-white/50 border-red-900/30">
                     <CardContent className="p-5">
                       <div className="flex items-start justify-between mb-4">
                         <div>
-                          <div className="font-semibold text-white">{ad.ad_name || "Unnamed Ad"}</div>
-                          <div className="text-xs text-gray-400 mt-0.5">{ad.campaign_name}</div>
+                          <div className="font-semibold text-foreground">{ad.ad_name || "Unnamed Ad"}</div>
+                          <div className="text-xs text-muted-foreground mt-0.5">{ad.campaign_name}</div>
                         </div>
                         <div className="flex items-center gap-2">
                           <Badge className="bg-red-500/20 text-red-300 border-none text-xs">
@@ -486,8 +486,8 @@ export default function ContentStudio() {
                           { label: "Impressions", value: ad.impressions?.toLocaleString(), warn: false },
                         ].map((m, i) => (
                           <div key={i} className="text-center">
-                            <div className="text-xs text-gray-400 mb-1">{m.label}</div>
-                            <div className={`text-sm font-bold ${m.warn ? "text-red-400" : "text-white"}`}>{m.value}</div>
+                            <div className="text-xs text-muted-foreground mb-1">{m.label}</div>
+                            <div className={`text-sm font-bold ${m.warn ? "text-red-400" : "text-foreground"}`}>{m.value}</div>
                           </div>
                         ))}
                       </div>
@@ -498,7 +498,7 @@ export default function ContentStudio() {
                           size="sm"
                           onClick={() => handleReplaceAd(ad)}
                           disabled={loadingReplacement[ad.ad_name]}
-                          className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-xs"
+                          className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-foreground text-xs"
                         >
                           {loadingReplacement[ad.ad_name] ? (
                             <><Loader2 className="w-3 h-3 mr-1 animate-spin" />Generating...</>
@@ -510,7 +510,7 @@ export default function ContentStudio() {
                           size="sm"
                           variant="outline"
                           onClick={() => handleGenerateFromAd(ad)}
-                          className="border-gray-700 text-gray-300 text-xs"
+                          className="border-border text-foreground/80 text-xs"
                         >
                           <Zap className="w-3 h-3 mr-1" />Quick Generate
                         </Button>
@@ -518,7 +518,7 @@ export default function ContentStudio() {
 
                       {/* Replacement content */}
                       {replacementContent[ad.ad_name] && (
-                        <div className="mt-4 bg-gray-800/50 rounded-lg p-4 border border-purple-500/20">
+                        <div className="mt-4 bg-muted/40 rounded-lg p-4 border border-purple-500/20">
                           <div className="flex items-center gap-2 mb-3">
                             <Sparkles className="w-4 h-4 text-purple-400" />
                             <span className="text-sm font-semibold text-purple-300">Organic Replacement Content</span>
@@ -526,7 +526,7 @@ export default function ContentStudio() {
                               R0 spend
                             </Badge>
                           </div>
-                          <div className="text-sm text-gray-300">
+                          <div className="text-sm text-foreground/80">
                             <Streamdown>{replacementContent[ad.ad_name]}</Streamdown>
                           </div>
                           <div className="mt-3 flex gap-2">
@@ -537,7 +537,7 @@ export default function ContentStudio() {
                                 setActiveTab("generate");
                                 toast.info("Content loaded into generator");
                               }}
-                              className="bg-purple-600 hover:bg-purple-700 text-white text-xs"
+                              className="bg-purple-600 hover:bg-purple-700 text-foreground text-xs"
                             >
                               <Sparkles className="w-3 h-3 mr-1" />Use in Generator
                             </Button>
@@ -553,27 +553,27 @@ export default function ContentStudio() {
             {/* All ads summary */}
             {!loadingAds && selectedAdAccount && allAds.length > 0 && (
               <div className="space-y-3">
-                <h3 className="text-sm font-semibold text-gray-400 flex items-center gap-2">
+                <h3 className="text-sm font-semibold text-muted-foreground flex items-center gap-2">
                   <DollarSign className="w-4 h-4" />
                   All Ads — Performance Overview
                 </h3>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr className="border-b border-gray-700">
+                      <tr className="border-b border-border">
                         {["Ad Name", "Campaign", "Spend", "CTR", "CPM", "Score", "Status"].map(h => (
-                          <th key={h} className="text-left py-2 px-3 text-xs text-gray-400 font-medium">{h}</th>
+                          <th key={h} className="text-left py-2 px-3 text-xs text-muted-foreground font-medium">{h}</th>
                         ))}
                       </tr>
                     </thead>
                     <tbody>
                       {allAds.map((ad: any) => (
-                        <tr key={ad.ad_id} className="border-b border-gray-800 hover:bg-gray-800/30">
-                          <td className="py-2 px-3 text-white text-xs max-w-[200px] truncate">{ad.ad_name || "Unnamed"}</td>
-                          <td className="py-2 px-3 text-gray-400 text-xs max-w-[150px] truncate">{ad.campaign_name}</td>
+                        <tr key={ad.ad_id} className="border-b border-border hover:bg-muted/30">
+                          <td className="py-2 px-3 text-foreground text-xs max-w-[200px] truncate">{ad.ad_name || "Unnamed"}</td>
+                          <td className="py-2 px-3 text-muted-foreground text-xs max-w-[150px] truncate">{ad.campaign_name}</td>
                           <td className="py-2 px-3 text-yellow-400 text-xs font-medium">R{ad.spend?.toFixed(2)}</td>
                           <td className={`py-2 px-3 text-xs font-medium ${ad.ctr < 1 ? "text-red-400" : "text-green-400"}`}>{ad.ctr?.toFixed(2)}%</td>
-                          <td className="py-2 px-3 text-gray-300 text-xs">R{ad.cpm?.toFixed(2)}</td>
+                          <td className="py-2 px-3 text-foreground/80 text-xs">R{ad.cpm?.toFixed(2)}</td>
                           <td className="py-2 px-3 text-xs">
                             <span className={`font-bold ${ad.performanceScore > 60 ? "text-green-400" : ad.performanceScore > 30 ? "text-yellow-400" : "text-red-400"}`}>
                               {ad.performanceScore}
@@ -581,9 +581,9 @@ export default function ContentStudio() {
                           </td>
                           <td className="py-2 px-3">
                             <Badge className={`text-xs border-none ${
-                              ad.status === "performing" ? "bg-green-500/20 text-green-300" :
-                              ad.status === "average" ? "bg-yellow-500/20 text-yellow-300" :
-                              "bg-red-500/20 text-red-300"
+                              ad.status === "performing" ? "bg-green-50 text-green-700" :
+                              ad.status === "average" ? "bg-yellow-50 text-yellow-700" :
+                              "bg-red-50 text-red-700"
                             }`}>{ad.status}</Badge>
                           </td>
                         </tr>
@@ -595,7 +595,7 @@ export default function ContentStudio() {
             )}
 
             {!loadingAds && selectedAdAccount && allAds.length === 0 && (
-              <div className="text-center py-12 text-gray-500">
+              <div className="text-center py-12 text-muted-foreground">
                 <BarChart3 className="w-12 h-12 mx-auto mb-3 opacity-30" />
                 <p>No ad data found for this period. Try a longer date range.</p>
               </div>
@@ -606,12 +606,12 @@ export default function ContentStudio() {
           <TabsContent value="posts" className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
               {!posts?.length ? (
-                <div className="col-span-3 text-center py-16 text-gray-500">
+                <div className="col-span-3 text-center py-16 text-muted-foreground">
                   <Sparkles className="w-12 h-12 mx-auto mb-3 opacity-30" />
                   <p>No posts yet. Generate your first post above.</p>
                 </div>
               ) : posts.map((post) => (
-                <Card key={post.id} className="bg-gray-900/50 border-gray-700 hover:border-gray-500 transition-colors">
+                <Card key={post.id} className="bg-white/50 border-border hover:border-border/40 transition-colors">
                   <CardContent className="p-4 space-y-3">
                     {post.imageUrl && (
                       <img src={post.imageUrl} alt="" className="w-full h-32 object-cover rounded-lg" />
@@ -623,7 +623,7 @@ export default function ContentStudio() {
                         {post.aiGenerated && <Badge className="text-xs bg-purple-500/20 text-purple-300 border-purple-500/30">AI</Badge>}
                       </div>
                     </div>
-                    <p className="text-gray-300 text-sm line-clamp-3">{post.caption}</p>
+                    <p className="text-foreground/80 text-sm line-clamp-3">{post.caption}</p>
                     {post.hashtags && <p className="text-blue-400 text-xs line-clamp-1">{post.hashtags}</p>}
                     <div className="flex gap-2 pt-1">
                       {post.status === "draft" && (
@@ -631,7 +631,7 @@ export default function ContentStudio() {
                           size="sm"
                           onClick={() => publishMutation.mutate({ postId: post.id })}
                           disabled={publishMutation.isPending}
-                          className="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs"
+                          className="flex-1 bg-blue-600 hover:bg-blue-700 text-foreground text-xs"
                         >
                           <Send className="w-3 h-3 mr-1" />Publish to Facebook
                         </Button>
@@ -653,27 +653,27 @@ export default function ContentStudio() {
 
           {/* ── Weekly Planner Tab ────────────────────────────────────────── */}
           <TabsContent value="weekly" className="space-y-6">
-            <Card className="bg-gray-900/50 border-gray-700">
+            <Card className="bg-white/50 border-border">
               <CardHeader>
-                <CardTitle className="text-white">AI Weekly Content Planner</CardTitle>
-                <CardDescription className="text-gray-400">Generate a full 7-day content strategy in seconds</CardDescription>
+                <CardTitle className="text-foreground">AI Weekly Content Planner</CardTitle>
+                <CardDescription className="text-muted-foreground">Generate a full 7-day content strategy in seconds</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label className="text-gray-300">Week Start Date</Label>
+                    <Label className="text-foreground/80">Week Start Date</Label>
                     <Input
                       type="date"
                       value={weekStart}
                       onChange={(e) => setWeekStart(e.target.value)}
-                      className="bg-gray-800 border-gray-600 text-white"
+                      className="bg-muted border-border/60 text-foreground"
                     />
                   </div>
                 </div>
                 <Button
                   onClick={() => weeklyPlanMutation.mutate({ weekStartDate: weekStart })}
                   disabled={weeklyPlanMutation.isPending}
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+                  className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-foreground"
                 >
                   {weeklyPlanMutation.isPending ? (
                     <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Planning your week...</>
@@ -687,18 +687,18 @@ export default function ContentStudio() {
             {weeklyPlan.length > 0 && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {weeklyPlan.map((item, i) => (
-                  <Card key={i} className="bg-gray-900/50 border-gray-700">
+                  <Card key={i} className="bg-white/50 border-border">
                     <CardContent className="p-4 space-y-2">
                       <div className="flex items-center justify-between">
-                        <span className="font-semibold text-white">{item.day}</span>
+                        <span className="font-semibold text-foreground">{item.day}</span>
                         {platformIcons[item.platform] || platformIcons.all}
                       </div>
-                      <Badge className={`text-xs ${contentTypeColors[item.contentType] || "bg-gray-500/20 text-gray-300"}`}>
+                      <Badge className={`text-xs ${contentTypeColors[item.contentType] || "bg-gray-500/20 text-foreground/80"}`}>
                         {item.contentType?.replace("_", " ")}
                       </Badge>
-                      <p className="text-white text-sm font-medium">{item.title}</p>
-                      <p className="text-gray-400 text-xs">{item.description}</p>
-                      <div className="flex items-center justify-between text-xs text-gray-500">
+                      <p className="text-foreground text-sm font-medium">{item.title}</p>
+                      <p className="text-muted-foreground text-xs">{item.description}</p>
+                      <div className="flex items-center justify-between text-xs text-muted-foreground">
                         <span>⏰ {item.postingTime}</span>
                         <span>🎯 {item.goal}</span>
                       </div>
@@ -710,7 +710,7 @@ export default function ContentStudio() {
                           setPlatform(item.platform === "all" ? "instagram" : item.platform);
                           setActiveTab("generate");
                         }}
-                        className="w-full border-gray-700 text-gray-300 text-xs mt-1"
+                        className="w-full border-border text-foreground/80 text-xs mt-1"
                       >
                         <Sparkles className="w-3 h-3 mr-1" />Generate This Post
                       </Button>

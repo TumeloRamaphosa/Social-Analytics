@@ -42,11 +42,11 @@ const PLATFORM_CONFIG: Record<Platform, { label: string; color: string; icon: Re
 };
 
 const STATUS_CONFIG: Record<Status, { label: string; color: string }> = {
-  idea: { label: "Idea", color: "bg-zinc-700 text-zinc-200" },
-  draft: { label: "Draft", color: "bg-yellow-900/60 text-yellow-300" },
-  scheduled: { label: "Scheduled", color: "bg-blue-900/60 text-blue-300" },
-  published: { label: "Published", color: "bg-green-900/60 text-green-300" },
-  failed: { label: "Failed", color: "bg-red-900/60 text-red-300" },
+  idea: { label: "Idea", color: "bg-muted text-muted-foreground border border-border" },
+  draft: { label: "Draft", color: "bg-yellow-50 text-yellow-700 border border-yellow-200" },
+  scheduled: { label: "Scheduled", color: "bg-blue-50 text-blue-700 border border-blue-200" },
+  published: { label: "Published", color: "bg-green-50 text-green-700 border border-green-200" },
+  failed: { label: "Failed", color: "bg-red-50 text-red-700 border border-red-200" },
 };
 
 const KANBAN_COLUMNS: Status[] = ["idea", "draft", "scheduled", "published"];
@@ -152,12 +152,12 @@ function ContentCard({
     <div
       draggable={draggable}
       onDragStart={onDragStart ? (e) => onDragStart(e, item.id) : undefined}
-      className="bg-zinc-900 border border-zinc-800 rounded-lg p-3 cursor-grab active:cursor-grabbing hover:border-zinc-600 transition-all group"
+      className="bg-white border border-border rounded-lg p-3 cursor-grab active:cursor-grabbing hover:border-primary/30 hover:shadow-sm transition-all group card-hover"
     >
       <div className="flex items-start justify-between gap-2 mb-2">
         <div className="flex items-center gap-1.5 flex-1 min-w-0">
           {draggable && <GripVertical className="h-3.5 w-3.5 text-zinc-600 shrink-0" />}
-          <p className="text-sm font-medium text-zinc-100 truncate">{item.title}</p>
+          <p className="text-sm font-medium text-foreground truncate">{item.title}</p>
         </div>
         <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
           <button onClick={() => onEdit(item)} className="p-1 hover:bg-zinc-700 rounded">
@@ -168,13 +168,13 @@ function ContentCard({
           </button>
         </div>
       </div>
-      <p className="text-xs text-zinc-500 line-clamp-2 mb-2">{item.content}</p>
+      <p className="text-xs text-muted-foreground line-clamp-2 mb-2">{item.content}</p>
       <div className="flex flex-wrap gap-1 mb-2">
         {item.platforms.map(p => <PlatformBadge key={p} platform={p} />)}
       </div>
       <div className="flex items-center justify-between">
         <span className={`text-xs px-1.5 py-0.5 rounded ${statusCfg.color}`}>{statusCfg.label}</span>
-        <div className="flex items-center gap-1 text-xs text-zinc-500">
+        <div className="flex items-center gap-1 text-xs text-muted-foreground">
           {item.aiGenerated && <Sparkles className="h-3 w-3 text-purple-400" />}
           <Clock className="h-3 w-3" />
           <span>{item.scheduledAt.toLocaleDateString("en-ZA", { day: "numeric", month: "short" })}</span>
@@ -219,7 +219,7 @@ function KanbanView({
         return (
           <div
             key={col}
-            className="bg-zinc-950 border border-zinc-800 rounded-xl p-3 min-h-64"
+            className="bg-muted/40 border border-border rounded-xl p-3 min-h-64"
             onDragOver={e => e.preventDefault()}
             onDrop={e => handleDrop(e, col)}
           >
@@ -241,7 +241,7 @@ function KanbanView({
                 />
               ))}
               {colItems.length === 0 && (
-                <div className="border-2 border-dashed border-zinc-800 rounded-lg p-4 text-center text-xs text-zinc-600">
+                <div className="border-2 border-dashed border-border rounded-lg p-4 text-center text-xs text-muted-foreground">
                   Drop here
                 </div>
               )}
@@ -273,7 +273,7 @@ function CalendarView({ items, onEdit }: { items: ContentItem[]; onEdit: (item: 
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-zinc-100">
+        <h3 className="text-lg font-semibold text-foreground">
           {MONTHS[month]} {year}
         </h3>
         <div className="flex gap-2">
@@ -287,7 +287,7 @@ function CalendarView({ items, onEdit }: { items: ContentItem[]; onEdit: (item: 
       </div>
       <div className="grid grid-cols-7 gap-1 mb-2">
         {DAYS.map(d => (
-          <div key={d} className="text-center text-xs font-medium text-zinc-500 py-1">{d}</div>
+          <div key={d} className="text-center text-xs font-semibold text-muted-foreground py-1">{d}</div>
         ))}
       </div>
       <div className="grid grid-cols-7 gap-1">
@@ -301,13 +301,13 @@ function CalendarView({ items, onEdit }: { items: ContentItem[]; onEdit: (item: 
                 day
                   ? isToday
                     ? "border-pink-500/50 bg-pink-950/20"
-                    : "border-zinc-800 bg-zinc-950 hover:border-zinc-600"
-                  : "border-transparent"
+                    : "border-border bg-white hover:border-primary/30"
+                  : "border-transparent bg-transparent"
               }`}
             >
               {day && (
                 <>
-                  <span className={`text-xs font-medium ${isToday ? "text-pink-400" : "text-zinc-400"}`}>
+                  <span className={`text-xs font-medium ${isToday ? "text-primary font-bold" : "text-muted-foreground"}`}>
                     {day}
                   </span>
                   <div className="mt-1 flex flex-col gap-0.5">
@@ -325,7 +325,7 @@ function CalendarView({ items, onEdit }: { items: ContentItem[]; onEdit: (item: 
                       </button>
                     ))}
                     {dayItems.length > 2 && (
-                      <span className="text-xs text-zinc-500 px-1">+{dayItems.length - 2} more</span>
+                      <span className="text-xs text-muted-foreground px-1">+{dayItems.length - 2} more</span>
                     )}
                   </div>
                 </>
@@ -349,15 +349,15 @@ function TableView({
   onDelete: (id: string) => void;
 }) {
   return (
-    <div className="overflow-x-auto rounded-xl border border-zinc-800">
+    <div className="overflow-x-auto rounded-xl border border-border bg-white">
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b border-zinc-800 bg-zinc-950">
-            <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400 uppercase tracking-wider">Title</th>
-            <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400 uppercase tracking-wider">Platforms</th>
-            <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400 uppercase tracking-wider">Status</th>
-            <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400 uppercase tracking-wider">Scheduled</th>
-            <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400 uppercase tracking-wider">AI</th>
+          <tr className="border-b border-border bg-muted/40">
+            <th className="text-left px-4 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Title</th>
+            <th className="text-left px-4 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Platforms</th>
+            <th className="text-left px-4 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Status</th>
+            <th className="text-left px-4 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Scheduled</th>
+            <th className="text-left px-4 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">AI</th>
             <th className="text-right px-4 py-3 text-xs font-semibold text-zinc-400 uppercase tracking-wider">Actions</th>
           </tr>
         </thead>
@@ -367,11 +367,11 @@ function TableView({
             return (
               <tr
                 key={item.id}
-                className={`border-b border-zinc-800/50 hover:bg-zinc-900/50 transition-colors ${i % 2 === 0 ? "bg-zinc-950" : "bg-zinc-900/20"}`}
+                className={`border-b border-border/50 hover:bg-muted/30 transition-colors ${i % 2 === 0 ? "bg-white" : "bg-muted/20"}`}
               >
                 <td className="px-4 py-3">
-                  <p className="font-medium text-zinc-100 truncate max-w-xs">{item.title}</p>
-                  <p className="text-xs text-zinc-500 truncate max-w-xs mt-0.5">{item.content}</p>
+                  <p className="font-medium text-foreground truncate max-w-xs">{item.title}</p>
+                  <p className="text-xs text-muted-foreground truncate max-w-xs mt-0.5">{item.content}</p>
                 </td>
                 <td className="px-4 py-3">
                   <div className="flex flex-wrap gap-1">
@@ -381,16 +381,16 @@ function TableView({
                 <td className="px-4 py-3">
                   <span className={`text-xs px-2 py-1 rounded-full ${statusCfg.color}`}>{statusCfg.label}</span>
                 </td>
-                <td className="px-4 py-3 text-xs text-zinc-400">
+                <td className="px-4 py-3 text-xs text-foreground">
                   {item.scheduledAt.toLocaleDateString("en-ZA", { day: "numeric", month: "short", year: "numeric" })}
                   <br />
-                  <span className="text-zinc-600">{item.scheduledAt.toLocaleTimeString("en-ZA", { hour: "2-digit", minute: "2-digit" })}</span>
+                  <span className="text-muted-foreground">{item.scheduledAt.toLocaleTimeString("en-ZA", { hour: "2-digit", minute: "2-digit" })}</span>
                 </td>
                 <td className="px-4 py-3">
                   {item.aiGenerated ? (
                     <Sparkles className="h-4 w-4 text-purple-400" />
                   ) : (
-                    <span className="text-zinc-600 text-xs">Manual</span>
+                    <span className="text-muted-foreground text-xs">Manual</span>
                   )}
                 </td>
                 <td className="px-4 py-3 text-right">
@@ -447,47 +447,47 @@ function EditDialog({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="bg-zinc-900 border-zinc-700 max-w-lg">
+      <DialogContent className="bg-white border-border max-w-lg">
         <DialogHeader>
-          <DialogTitle className="text-zinc-100">Edit Content</DialogTitle>
+          <DialogTitle className="text-foreground">Edit Content</DialogTitle>
         </DialogHeader>
         <div className="flex flex-col gap-3 py-2">
           <Input
             placeholder="Post title"
             value={form.title}
             onChange={e => setForm({ ...form, title: e.target.value })}
-            className="bg-zinc-800 border-zinc-700 text-zinc-100"
+            className="bg-background border-input text-foreground"
           />
           <div className="relative">
             <Textarea
               placeholder="Post content..."
               value={form.content}
               onChange={e => setForm({ ...form, content: e.target.value })}
-              className="bg-zinc-800 border-zinc-700 text-zinc-100 min-h-28 resize-none"
+              className="bg-background border-input text-foreground min-h-28 resize-none"
             />
             <Button
               size="sm"
               variant="ghost"
               onClick={handleGenerate}
               disabled={generateMutation.isPending}
-              className="absolute top-2 right-2 h-7 gap-1 text-purple-400 hover:text-purple-300"
+              className="absolute top-2 right-2 h-7 gap-1 text-secondary-foreground hover:text-primary"
             >
               <Sparkles className="h-3.5 w-3.5" />
               {generateMutation.isPending ? "Generating..." : "AI Generate"}
             </Button>
           </div>
           <Select value={form.status} onValueChange={v => setForm({ ...form, status: v as Status })}>
-            <SelectTrigger className="bg-zinc-800 border-zinc-700 text-zinc-100">
+            <SelectTrigger className="bg-background border-input text-foreground">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent className="bg-zinc-800 border-zinc-700">
+            <SelectContent className="bg-white border-border">
               {Object.entries(STATUS_CONFIG).map(([k, v]) => (
-                <SelectItem key={k} value={k} className="text-zinc-100">{v.label}</SelectItem>
+                <SelectItem key={k} value={k} className="text-foreground">{v.label}</SelectItem>
               ))}
             </SelectContent>
           </Select>
           <div>
-            <p className="text-xs text-zinc-400 mb-2">Platforms</p>
+            <p className="text-xs text-muted-foreground font-medium mb-2">Platforms</p>
             <div className="flex flex-wrap gap-2">
               {(Object.keys(PLATFORM_CONFIG) as Platform[]).map(p => {
                 const selected = form.platforms.includes(p);
@@ -584,11 +584,11 @@ export default function ContentCalendar() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-zinc-100 flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
               <Calendar className="h-6 w-6 text-pink-400" />
               Content Calendar
             </h1>
-            <p className="text-sm text-zinc-500 mt-1">Plan, schedule, and publish across all platforms</p>
+            <p className="text-sm text-muted-foreground mt-1">Plan, schedule, and publish across all platforms</p>
           </div>
           <Button onClick={handleAddNew} className="gap-2 bg-pink-600 hover:bg-pink-500">
             <Plus className="h-4 w-4" />
@@ -599,15 +599,15 @@ export default function ContentCalendar() {
         {/* Stats Row */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           {[
-            { label: "Total Posts", value: stats.total, icon: FileText, color: "text-zinc-300" },
-            { label: "Scheduled", value: stats.scheduled, icon: Clock, color: "text-blue-400" },
-            { label: "Published", value: stats.published, icon: CheckCircle2, color: "text-green-400" },
-            { label: "AI Generated", value: stats.aiGenerated, icon: Sparkles, color: "text-purple-400" },
+            { label: "Total Posts", value: stats.total, icon: FileText, color: "text-foreground" },
+            { label: "Scheduled", value: stats.scheduled, icon: Clock, color: "text-blue-600" },
+            { label: "Published", value: stats.published, icon: CheckCircle2, color: "text-green-600" },
+            { label: "AI Generated", value: stats.aiGenerated, icon: Sparkles, color: "text-primary" },
           ].map(s => (
-            <Card key={s.label} className="bg-zinc-900 border-zinc-800 p-4">
+            <Card key={s.label} className="bg-white border-border p-4 card-hover">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs text-zinc-500">{s.label}</p>
+                  <p className="text-xs text-muted-foreground">{s.label}</p>
                   <p className={`text-2xl font-bold mt-1 ${s.color}`}>{s.value}</p>
                 </div>
                 <s.icon className={`h-8 w-8 ${s.color} opacity-30`} />
@@ -619,7 +619,7 @@ export default function ContentCalendar() {
         {/* Controls */}
         <div className="flex flex-wrap items-center gap-3">
           {/* View Toggle */}
-          <div className="flex items-center gap-1 bg-zinc-900 border border-zinc-800 rounded-lg p-1">
+          <div className="flex items-center gap-1 bg-muted border border-border rounded-lg p-1">
             {[
               { id: "kanban", icon: LayoutGrid, label: "Kanban" },
               { id: "calendar", icon: CalendarDays, label: "Calendar" },
@@ -631,7 +631,7 @@ export default function ContentCalendar() {
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-medium transition-all ${
                   view === v.id
                     ? "bg-pink-600 text-white"
-                    : "text-zinc-400 hover:text-zinc-200"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 <v.icon className="h-3.5 w-3.5" />
@@ -642,31 +642,31 @@ export default function ContentCalendar() {
 
           {/* Platform Filter */}
           <Select value={filterPlatform} onValueChange={v => setFilterPlatform(v)}>
-            <SelectTrigger className="bg-zinc-900 border-zinc-800 text-zinc-300 h-8 text-xs w-36">
+            <SelectTrigger className="bg-white border-border text-foreground h-8 text-xs w-36">
               <SelectValue placeholder="All Platforms" />
             </SelectTrigger>
-            <SelectContent className="bg-zinc-800 border-zinc-700">
-              <SelectItem value="all" className="text-zinc-100 text-xs">All Platforms</SelectItem>
+            <SelectContent className="bg-white border-border">
+              <SelectItem value="all" className="text-foreground text-xs">All Platforms</SelectItem>
               {(Object.keys(PLATFORM_CONFIG) as Platform[]).map(p => (
-                <SelectItem key={p} value={p} className="text-zinc-100 text-xs">{PLATFORM_CONFIG[p].label}</SelectItem>
+                <SelectItem key={p} value={p} className="text-foreground text-xs">{PLATFORM_CONFIG[p].label}</SelectItem>
               ))}
             </SelectContent>
           </Select>
 
           {/* Status Filter */}
           <Select value={filterStatus} onValueChange={v => setFilterStatus(v)}>
-            <SelectTrigger className="bg-zinc-900 border-zinc-800 text-zinc-300 h-8 text-xs w-32">
+            <SelectTrigger className="bg-white border-border text-foreground h-8 text-xs w-32">
               <SelectValue placeholder="All Status" />
             </SelectTrigger>
-            <SelectContent className="bg-zinc-800 border-zinc-700">
-              <SelectItem value="all" className="text-zinc-100 text-xs">All Status</SelectItem>
+            <SelectContent className="bg-white border-border">
+              <SelectItem value="all" className="text-foreground text-xs">All Status</SelectItem>
               {Object.entries(STATUS_CONFIG).map(([k, v]) => (
-                <SelectItem key={k} value={k} className="text-zinc-100 text-xs">{v.label}</SelectItem>
+                <SelectItem key={k} value={k} className="text-foreground text-xs">{v.label}</SelectItem>
               ))}
             </SelectContent>
           </Select>
 
-          <span className="text-xs text-zinc-500 ml-auto">{filtered.length} posts</span>
+          <span className="text-xs text-muted-foreground ml-auto">{filtered.length} posts</span>
         </div>
 
         {/* View Content */}
@@ -686,11 +686,11 @@ export default function ContentCalendar() {
         )}
 
         {/* AI Strategy Panel */}
-        <Card className="bg-zinc-900 border-zinc-800 p-5">
+        <Card className="bg-white border-border p-5">
           <div className="flex items-center gap-2 mb-3">
             <Zap className="h-5 w-5 text-yellow-400" />
-            <h3 className="font-semibold text-zinc-100">AI Posting Strategy</h3>
-            <Badge className="bg-yellow-900/50 text-yellow-300 text-xs">Live Recommendations</Badge>
+            <h3 className="font-semibold text-foreground">AI Posting Strategy</h3>
+            <Badge className="bg-yellow-50 text-yellow-700 border border-yellow-200 text-xs">Live Recommendations</Badge>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[
@@ -713,12 +713,12 @@ export default function ContentCalendar() {
                 tip: "Your last 5 posts had no call-to-action. Add 'Order via link in bio' or 'DM us to order' to every post to drive conversions.",
               },
             ].map(r => (
-              <div key={r.title} className="bg-zinc-950 rounded-lg p-3">
+              <div key={r.title} className="bg-muted/40 border border-border rounded-lg p-3">
                 <div className="flex items-center gap-2 mb-2">
                   <r.icon className={`h-4 w-4 ${r.color}`} />
-                  <span className="text-sm font-medium text-zinc-200">{r.title}</span>
+                  <span className="text-sm font-medium text-foreground">{r.title}</span>
                 </div>
-                <p className="text-xs text-zinc-500">{r.tip}</p>
+                <p className="text-xs text-muted-foreground">{r.tip}</p>
               </div>
             ))}
           </div>
